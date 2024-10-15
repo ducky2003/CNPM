@@ -1,0 +1,137 @@
+﻿@using Library.Areas.Admin.Models
+@model ViewUser
+@{
+    ViewData["Title"] = $"{@Model.FirstName} {@Model.LastName}";
+}
+<div class="profile-setting ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-main">
+                    <h4 class="breadcrumb-title">Thông tin người dùng</h4>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-4 col-sm-5">
+                <!-- Profile Acoount -->
+                <div class="card mb-25">
+                    <div class="card-body text-center p-0">
+                        <div class="account-profile border-bottom pt-25 px-25 pb-0 flex-column d-flex align-items-center ">
+                            <div class="ap-img mb-20 pro_img_wrapper">
+                                <img class="dm-upload-avatar avatrSrc ap-img__main rounded-circle wh-120" src="@Model.ProfileImage"
+                                     alt="profile">
+                            </div>
+                            <div class="ap-nameAddress pb-3">
+                                <h5 class="ap-nameAddress__title">@Model.FirstName @Model.LastName</h5>
+                                <p class="ap-nameAddress__subTitle fs-14 m-0">@Model.Role</p>
+                            </div>
+                        </div>
+                        <div class="ps-tab p-20 pb-25">
+                            <div class="nav flex-column text-start" id="v-pills-tab" role="tablist"
+                                 aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                                   href="#v-pills-home" role="tab" aria-selected="true">
+                                    <img src="/img/svg/user.svg" alt="user" class="svg">Hồ sơ người dùng
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile Acoount End -->
+            </div>
+            <div class="col-xxl-9 col-lg-8 col-sm-7">
+                <div class="as-cover">
+                    <div class="as-cover__imgWrapper">
+                        <input id="file-upload1" type="file" name="fileUpload" class="d-none">
+                        <img src="/img/cover-photo.webp" alt="image" class="w-100 profile-cover-photo">
+                    </div>
+                </div>
+                <div class="mb-50">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                             aria-labelledby="v-pills-home-tab">
+                            <!-- Edit Profile -->
+                            <div class="edit-profile mt-25">
+                                <div class="card">
+                                    <div class="card-header px-sm-25 px-3">
+                                        <div class="edit-profile__title">
+                                            <h6>Hồ sơ người dùng</h6>
+                                            <span class="fs-13 color-light fw-400">
+                                                Trang này chỉ hiển thị các thông tin cá nhân cơ
+                                                bản của người dùng
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row justify-content-center">
+
+                                            <div class="col-6">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <div class="form-group mb-20">
+                                                        <label>Họ và tên lót</label>
+                                                        <input type="text" id="first-name" class="form-control" disabled value="@Model.FirstName">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label>Tên</label>
+                                                        <input type="text" id="last-name" class="form-control" disabled value="@Model.LastName">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label>Số điện thoại</label>
+                                                        <input type="tel" id="phone-number" class="form-control" disabled value="@Model.Phone">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label>Địa chỉ</label>
+                                                        <input type="text" id="address" class="form-control" disabled value="@Model.Address">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <div class="form-group mb-20">
+                                                        <label>Địa chỉ E-mail</label>
+                                                        <input type="text" id="Email" class="form-control" disabled value="@Model.Email">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label for="datepicker">Ngày sinh</label>
+                                                        <div class="dm-date-picker">
+                                                            <div class="form-group mb-0 position-relative">
+                                                                <input type="text" class="form-control form-control-lg" disabled
+                                                                       value="@Model.DateOfBirth?.ToString("yyyy/MM/dd")">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <div class="role-option">
+                                                            <label for="role">
+                                                                Vai trò người dùng
+                                                            </label>
+                                                            <input type="text" id="address" class="form-control" disabled value="@Model.Role">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <div class="workspace-option">
+                                                            <label for="workspace">
+                                                                Nơi làm việc
+                                                            </label>
+                                                            <input type="text" id="address" class="form-control" disabled value="@Model.WorkspaceName">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="button-group d-flex justify-content-end flex-wrap pt-30 mb-15">
+                                            <a asp-action="Edit" asp-controller="User" asp-area="Admin" asp-route-id="@Model.Id"
+                                               class="btn btn-primary btn-default rounded-pill">
+                                                Cập nhật thông tin
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit Profile End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

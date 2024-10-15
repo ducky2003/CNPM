@@ -1,0 +1,192 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Library.Entities
+@using Library.Config
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    var user = await UserManager.GetUserAsync(User);
+    var userRole = UserManager.GetRolesAsync(user).Result.FirstOrDefault();
+}
+<div class="container-fluid">
+    <div class="profile-content mb-50">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-main">
+                    <h4 class="breadcrumb-title">Trang cá nhân</h4>
+                    <div class="breadcrumb-action justify-content-center flex-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/"><i class="uil uil-estate"></i>Trang chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Trang cá nhân</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-md-4  ">
+                <aside class="profile-sider">
+                    <!-- Profile Acoount -->
+                    <div class="card mb-25">
+                        <div class="card-body text-center pt-sm-30 pb-sm-0  px-25 pb-0">
+                            <div class="account-profile">
+                                <div class="ap-img w-100 d-flex justify-content-center">
+                                    <!-- Profile picture image-->
+                                    <img class="ap-img__main rounded-circle mb-3  wh-120 d-flex bg-opacity-primary"
+                                         src="@user.ProfileImage" alt="profile">
+                                </div>
+                                <div class="ap-nameAddress pb-3 pt-1">
+                                    <h5 class="ap-nameAddress__title">@user.FirstName @user.LastName</h5>
+                                    <p class="ap-nameAddress__subTitle fs-14 m-0">@userRole</p>
+                                    <p class="ap-nameAddress__subTitle fs-14 m-0">
+                                        @* <img src="img/svg/map-pin.svg" alt="map-pin" class="svg">@user.Address *@
+                                    </p>
+                                </div>
+                                <div class="ap-button button-group d-flex justify-content-center flex-wrap">
+                                    <button class="btn btn-primary btn-default btn-squared px-25">
+                                        <img src="img/svg/user-plus.svg" alt="user-plus" class="svg">
+                                        Chỉnh sửa
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-footer mt-20 pt-20 pb-20 px-0 bg-transparent">
+                                @* <div class="profile-overview d-flex justify-content-between flex-wrap">
+                                    <div class="po-details">
+                                        <h6 class="po-details__title pb-1">@user.Orders.Count</h6>
+                                        <span class="po-details__sTitle">Số lần mượn sách</span>
+                                    </div>
+                                    <div class="po-details">
+                                        <h6 class="po-details__title pb-1">
+                                            @user.Orders.Count(item =>
+                                                     item.OrderDetails.Any(status => status.StatusId == 3))
+                                        </h6>
+                                        <span class="po-details__sTitle">Sách đang mượn</span>
+                                    </div>
+                                    <div class="po-details">
+                                        <h6 class="po-details__title pb-1">
+                                            @user.Orders.Count(item =>
+                                                     item.OrderDetails.Any(status => status.StatusId == 4))
+                                        </h6>
+                                        <span class="po-details__sTitle">Sách đã trả</span>
+                                    </div>
+                                </div> *@
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile Acoount End -->
+                    <!-- Profile User Bio -->
+                    <div class="card mb-25">
+                        <div class="user-bio border-bottom">
+                            <div class="card-header border-bottom-0 pt-sm-30 pb-sm-0  px-md-25 px-3">
+                                <div class="profile-header-title">
+                                    Tiểu sử
+                                </div>
+                            </div>
+                            <div class="card-body pt-md-1 pt-0">
+                                <div class="user-bio__content">
+                                    <p class="m-0">Chưa cập nhật</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-info border-bottom">
+                            <div class="card-header border-bottom-0 pt-sm-25 pb-sm-0  px-md-25 px-3">
+                                <div class="profile-header-title">
+                                    Thông tin liên hệ
+                                </div>
+                            </div>
+                            <div class="card-body pt-md-1 pt-0">
+                                <div class="user-content-info">
+                                    <p class="user-content-info__item">
+                                        <img class="svg" src="img/svg/mail.svg" alt="mail">@user.Email
+                                    </p>
+                                    <p class="user-content-info__item">
+                                        <img src="img/svg/phone.svg" alt="phone" class="svg">@user.PhoneNumber
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Profile User Bio End -->
+                </aside>
+            </div>
+
+            <div class="col-xxl-9 col-md-8">
+                <!-- Tab Menu -->
+                <div class="ap-tab ap-tab-header">
+                    <div class="ap-tab-header__img">
+                        <img src="/img/cover-photo.webp" alt="image" class="w-100 profile-cover-photo">
+                    </div>
+                    <div class="ap-tab-wrapper">
+                        <ul class="nav px-25 ap-tab-main" id="ap-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="ap-overview-tab" data-bs-toggle="pill"
+                                   href="#ap-overview" role="tab" aria-selected="true">Tổng quan</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="activity-tab" data-bs-toggle="pill" href="#activity" role="tab"
+                                   aria-selected="false">Hoạt động gần đây</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Tab Menu End -->
+                <div class="tab-content mt-25" id="ap-tabContent">
+                    <div class="tab-pane fade show active" id="ap-overview" role="tabpanel"
+                         aria-labelledby="ap-overview-tab">
+                        <div class="ap-content-wrapper">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!-- Product Table -->
+                                    <div class="card mt-25 mb-40">
+                                        <div class="card-header px-md-25 px-3">
+                                            <h6>Đơn mượn sách gần nhất</h6>
+                                            <div class="dropdown">
+                                                <a href="#" role="button" id="products" data-bs-toggle="dropdown"
+                                                   aria-haspopup="true" aria-expanded="false">
+                                                    <img src="img/svg/more-horizontal.svg" alt="more-horizontal"
+                                                         class="svg">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                     aria-labelledby="products">
+                                                    <a class="dropdown-item" asp-action="MyOrders"
+                                                       asp-controller="Home">Xem tất cả đơn mượn của tôi</a>
+                                                    <a class="dropdown-item" href="#">Báo lỗi</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-0">
+                                            <div class="ap-product">
+                                               @*  @await Component.InvokeAsync("MyLastOrders") *@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Product Table End -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                        <div class="ap-post-content">
+                            <div class="row">
+                                <div class="col-xxl-12">
+                                    <div class="card card-default card-md mb-4">
+                                        <div class="card-body">
+                                            <div class="dm-empty text-center">
+                                                <div class="dm-empty__image">
+                                                    <img src="/img/svg/empty.svg" alt="Empty table">
+                                                </div>
+                                                <div class="dm-empty__text">
+                                                    <p class="">Không có hoạt động nào gần đây!</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

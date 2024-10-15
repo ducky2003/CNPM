@@ -1,0 +1,136 @@
+﻿@model Library.Models.LoginModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    var currentPath = Context.Request.Path;
+}
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-8 col-sm-8">
+            <div class="edit-profile">
+                <div class="edit-profile__logos">
+                    <a href="/">
+                        <img class="dark" src="/img/Logo-Hori.png" alt="">
+                        <img class="light" src="/img/Logo-Hori-White.png" alt="">
+                    </a>
+                </div>
+                <div class="card border-1" style="height: 800px">
+                    <div class="card-header">
+                        <div class="edit-profile__title">
+                            <h6>Đăng nhập hệ thống thư viện</h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form id="login-form" class="edit-profile__body" asp-controller="Account" asp-action="Login"
+                            method="post">
+                            @Html.AntiForgeryToken()
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="form-group mb-25">
+                                <label asp-for="Email">Tài khoản</label>
+                                <input required asp-for="Email" type="text" class="form-control rounded-pill"
+                                       id="username" placeholder="Tài khoản">
+                            </div>
+                            <div class="form-group mb-15">
+                                <label asp-for="Password">Mật khẩu</label>
+                                <div class="position-relative">
+                                    <input required id="password-field" asp-for="Password" type="password"
+                                           class="rounded-pill form-control" name="password" placeholder="Mật khẩu">
+                                    <div class="uil uil-eye-slash text-lighten fs-15 field-icon toggle-password2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div asp-validation-summary="ModelOnly"
+                                 class="text-center text-danger error-message text-small">
+                            </div>
+                            <div class="admin-condition">
+                                <div class="checkbox-theme-default checkbox-circle custom-checkbox">
+                                    <input id="remember" class="checkbox rounded-circle" type="checkbox">
+                                    <label for="remember">
+                                        <span class="checkbox-text">Nhớ đăng nhập</span>
+                                    </label>
+                                </div>
+                                <a href="/Account/Register">Đăng Ký</a>
+                            </div>
+                            <div class="spin-embadded loading-element">
+                                <div class="admin__button-group button-group d-flex pt-1 justify-content-md-start justify-content-center"
+                                     role="alert">
+                                    <button type="submit"
+                                            class="btn btn-primary rounded-pill btn-default w-100 btn-squared lh-normal px-50 signIn-createBtn"
+                                            id="login-submit-btn">
+                                        Đăng nhập
+                                    </button>
+                                    <div class="loaded-spin text-center">
+                                        <div class="dm-spin-dots spin-sm">
+                                            <span class="spin-dot badge-dot dot-primary"></span>
+                                            <span class="spin-dot badge-dot dot-primary"></span>
+                                            <span class="spin-dot badge-dot dot-primary"></span>
+                                            <span class="spin-dot badge-dot dot-primary"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div><!-- End: .card-body -->
+
+                </div><!-- End: .card -->
+            </div><!-- End: .edit-profile -->
+        </div><!-- End: .col-xl-5 -->
+    </div><!-- End: .admin-element  -->
+</div><!-- End: .container-fluid -->
+<div id="overlayer">
+    <div class="loader-overlay">
+        <div class="dm-spin-dots spin-lg">
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+        </div>
+    </div>
+</div>
+<div class="enable-dark-mode dark-trigger">
+    <ul>
+        <li>
+            <a>
+                <i class="uil uil-moon"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+@if (currentPath.StartsWithSegments("/account/login"))
+{
+    @section Scripts {
+    <script>
+        // Clear error message
+        const username = document.getElementById('username');
+        const password = document.getElementById('password-field');
+        const loadingElement = document.querySelector('.loading-element');
+        const loginForm = document.getElementById("login-form");
+        const loginBtn = document.getElementById("login-submit-btn");
+        const error = document.querySelector('.error-message');
+        if (error && error.textContent !== '') {
+            username?.addEventListener('input', () => {
+                error.textContent = '';
+            });
+            password?.addEventListener('input', () => {
+                error.textContent = '';
+            });
+        }
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        loginForm?.addEventListener("submit", async (e) => {
+            loginBtn.classList.add("disabled");
+            loginBtn.textContent = "";
+            loginBtn.style.opacity = "0.1";
+            loadingElement.classList.add("spin-active");
+            setTimeout(() => {
+                loginBtn.classList.remove("disabled");
+                loginBtn.style.opacity = "1";
+                loginBtn.innerText = "Đăng nhập";
+                loadingElement.classList.remove("spin-active");
+            }, 5000);
+        }
+        );
+    </script>
+    }
+}

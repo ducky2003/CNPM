@@ -1,0 +1,240 @@
+﻿﻿@{
+    var currentPath = Context.Request.Path;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hệ thống thư viện thông minh</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- inject:css-->
+
+    <link rel="stylesheet" href="/assets/css/bootstrap/bootstrap.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/daterangepicker.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/fullcalendar@5.2.0.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/jquery-jvectormap-2.0.5.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/jquery.mCustomScrollbar.min.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/leaflet.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/line-awesome.min.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/footable.standalone.min.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/trumbowyg.min.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/fontawesome.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/slick.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/magnific-popup.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/MarkerCluster.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/MarkerCluster.Default.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/select2.min.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/star-rating-svg.css">
+
+    <link rel="stylesheet" href="/assets/vendor_assets/css/wickedpicker.min.css">
+
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="icon" type="icon" href="/img/favicon.ico">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+
+</head>
+
+<body>
+    <partial name="~/Views/Shared/Components/Header/Header.cshtml" />
+    <main role="main" class="main-content">
+        <div class="sidebar-wrapper">
+            <partial name="~/Views/Shared/Components/Sidebar/Sidebar.cshtml" />
+        </div>
+        <div class="contents">
+            @RenderBody()
+        </div>
+    </main>
+    <div class="overlay-dark-sidebar"></div>
+    <div class="customizer-overlay"></div>
+    <div class="message-wrapper"></div>
+    <div class="customizer-wrapper">
+        <div class="customizer">
+            <div class="customizer__head">
+                <h4 class="customizer__title">Chỉnh sửa giao diện</h4>
+                <span class="customizer__sub-title">Chọn kiểu giao diện mà bạn thích</span>
+                <a href="#" class="customizer-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="svg replaced-svg" style="color: #ff4d4f">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </a>
+            </div>
+            <div class="customizer__body">
+                <div class="customizer__single">
+                    <h4>Kiểu bố cục</h4>
+                    <ul class="customizer-list d-flex layout">
+                        <li class="customizer-list__item">
+                            <a href="#" class="active">
+                                <img src="/img/ltr.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                        <li class="customizer-list__item">
+                            <a href="#">
+                                <img src="/img/rtl.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="customizer__single">
+                    <h4>Chế độ hiển thị</h4>
+                    <ul class="customizer-list d-flex l_sidebar">
+                        <li class="customizer-list__item">
+                            <a href="#" id="light-banner-change" data-layout="light" class="dark-mode-toggle">
+                                <img src="/img/light.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                        <li class="customizer-list__item">
+                            <a href="#" id="dark-banner-change" data-layout="dark" class="dark-mode-toggle">
+                                <img src="/img/dark.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="customizer__single">
+                    <h4>Kiểu thanh điều hướng</h4>
+                    <ul class="customizer-list d-flex l_navbar">
+                        <li class="customizer-list__item side">
+                            <a href="#" data-layout="side" class="active">
+                                <img src="/img/side.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                        <li class="customizer-list__item top">
+                            <a href="#" data-layout="top">
+                                <img src="/img/top.png" alt="" />
+                                <i class="fa fa-check-circle"></i>
+                            </a>
+                        </li>
+                        <li class="colors"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="border-top footer text-muted">
+        <div class="container p-2 text-center">
+            &copy; 2024
+        </div>
+    </footer>
+    <!-- inject:js-->
+    <script src="/assets/vendor_assets/js/jquery/jquery-3.7.1.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery/jquery-ui.min.js"></script>
+    <script src="/assets/vendor_assets/js/bootstrap/popper.js"></script>
+    <script src="/assets/vendor_assets/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/assets/vendor_assets/js/moment/moment.min.js"></script>
+    <script src="/assets/vendor_assets/js/accordion.js"></script>
+    <script src="/assets/vendor_assets/js/apexcharts.min.js"></script>
+    <script src="/assets/vendor_assets/js/autoComplete.js"></script>
+    <script src="/assets/vendor_assets/js/Chart.min.js"></script>
+    <script src="/assets/vendor_assets/js/daterangepicker.js"></script>
+    <script src="/assets/vendor_assets/js/drawer.js"></script>
+    <script src="/assets/vendor_assets/js/dynamicBadge.js"></script>
+    <script src="/assets/vendor_assets/js/dynamicCheckbox.js"></script>
+    <script src="/assets/vendor_assets/js/footable.min.js"></script>
+    <script src="/assets/vendor_assets/js/fullcalendar@5.2.0.js"></script>
+    <script src="/assets/vendor_assets/js/google-chart.js"></script>
+    <script src="/assets/vendor_assets/js/jquery-jvectormap-2.0.5.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="/assets/vendor_assets/js/jquery.countdown.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery.filterizr.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery.peity.min.js"></script>
+    <script src="/assets/vendor_assets/js/jquery.star-rating-svg.min.js"></script>
+    <script src="/assets/vendor_assets/js/leaflet.js"></script>
+    <script src="/assets/vendor_assets/js/leaflet.markercluster.js"></script>
+    <script src="/assets/vendor_assets/js/loader.js"></script>
+    <script src="/assets/vendor_assets/js/moment.js"></script>
+    <script src="/assets/vendor_assets/js/muuri.min.js"></script>
+    <script src="/assets/vendor_assets/js/notification.js"></script>
+    <script src="/assets/vendor_assets/js/popover.js"></script>
+    <script src="/assets/vendor_assets/js/select2.full.min.js"></script>
+    <script src="/assets/vendor_assets/js/slick.min.js"></script>
+    <script src="/assets/vendor_assets/js/trumbowyg.min.js"></script>
+    <script src="/assets/vendor_assets/js/wickedpicker.min.js"></script>
+    <script src="/assets/theme_assets/js/apexmain.js"></script>
+    <script src="/assets/theme_assets/js/charts.js"></script>
+    <script src="/assets/theme_assets/js/drag-drop.js"></script>
+    <script src="/assets/theme_assets/js/footable.js"></script>
+    <script src="/assets/theme_assets/js/full-calendar.js"></script>
+    <script src="/assets/theme_assets/js/googlemap-init.js"></script>
+    <script src="/assets/theme_assets/js/icon-loader.js"></script>
+    <script src="/assets/theme_assets/js/jvectormap-init.js"></script>
+    <script src="/assets/theme_assets/js/leaflet-init.js"></script>
+    <script src="/assets/theme_assets/js/main.js"></script>
+    <script src="/assets/js/message.js"></script>
+    <script src="/assets/js/script.js"></script>
+    <!-- endinject-->
+    @RenderSection("Scripts", required: false)
+    @if (TempData["AuthMessage"] != null)
+    {
+        <script>
+            const messageType = '@TempData["Type"]'
+            let icon = "";
+            switch (messageType) {
+                case 'success':
+                    icon = 'check-circle';
+                    break;
+                case 'error':
+                    icon = 'times-circle';
+                    break;
+                case 'warning':
+                    icon = 'exclamation-circle';
+                    break;
+                default:
+                    icon = 'circle-info'
+            }
+            showMessage(messageType, icon, '@TempData["AuthMessage"]?.ToString()')
+        </script>
+    }
+    @if (TempData["SystemMessage"] != null)
+    {
+        <script>
+            const messageType = '@TempData["Type"]'
+            let icon = "";
+            switch (messageType) {
+                case 'success':
+                    icon = 'check-circle';
+                    break;
+                case 'error':
+                    icon = 'times-circle';
+                    break;
+                case 'warning':
+                    icon = 'exclamation-circle';
+                    break;
+                default:
+                    icon = 'circle-info'
+            }
+            showMessage(messageType, icon, '@TempData["SystemMessage"]?.ToString()')
+        </script>
+    }
+    <!-- endinject-->
+</body>
+
+</html>

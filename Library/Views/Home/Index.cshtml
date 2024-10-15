@@ -1,0 +1,17 @@
+﻿@using Library.Config
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (User.IsInRole(AppRole.Admin))
+{
+    <a href="/Admin/">Quản lý hệ thống</a>
+}
+else if (User.IsInRole(AppRole.User))
+{
+    <a href="/Manager/Manage">Quản lý</a>
+}
+else
+{
+    <p>Bạn đang đăng nhập với vai trò Sinh Viên.</p>
+}

@@ -1,0 +1,76 @@
+@{
+    ViewData["Title"] = "Quản lý tập tin";
+}
+
+<div id="elfinder" class="elfinder-container"></div>
+@section elFinderScript {
+    <script type="text/javascript">
+        // Documentation for client options:
+        // https://github.com/Studio-42/elFinder/wiki/Client-configuration-options
+        var selectedFilePath = null;
+        $(document).ready(function () {
+            var myCommands = elFinder.prototype._options.commands;
+            // Not yet implemented commands in elFinder.NetCore
+            var disabled = ['callback', 'chmod', 'editor', 'netmount', 'ping', 'search', 'zipdl', 'help'];
+            elFinder.prototype.i18.en.messages.TextArea = "Edit";
+            $.each(disabled, function (i, cmd) {
+                (idx = $.inArray(cmd, myCommands)) !== -1 && myCommands.splice(idx, 1);
+            });
+            var options = {
+                baseUrl: "@Url.Content("~/assets/elfinder/")",
+                url: "@Url.Action("Connector")",
+                rememberLastDir: false,
+                commands: myCommands,
+                lang: 'vi',
+                height: "100%",
+                handlers: {
+                    select: (event, elfinderInstance) => {
+                        if (event.data.selected.length == 1) {
+                            var item = $('#' + event.data.selected[0]);
+                            if (!item.hasClass('directory')) {
+                                selectedFile = event.data.selected[0];
+                                $('#elfinder-selectFile').show();
+                                return;
+                            }
+                        }
+                        $('#elfinder-selectFile').hide();
+                        selectedFile = null;
+                    }
+                },
+                getFileCallback: function (file) {
+                    var fullPath = file.url;
+                    var funcNum = getUrlParam('CKEditorFuncNum');
+                    selectedFilePath = file.path;
+                    var fileUrl = "/" + file.path;
+                    window.opener.CKEDITOR.tools.callFunction(funcNum, fileUrl);
+                    window.close();
+                },
+                uiOptions: {
+                    toolbar: [
+                        ['back', 'forward'],
+                        ['reload'],
+                        ['home', 'up'],
+                        ['mkdir', 'mkfile', 'upload'],
+                        ['open', 'download', 'getfile'],
+                        ['undo', 'redo'],
+                        ['info'],
+                        ['quicklook'],
+                        ['copy', 'cut', 'paste'],
+                        ['rm'],
+                        ['duplicate', 'rename', 'edit'],
+                        ['selectall', 'selectnone', 'selectinvert'],
+                        ['view', 'sort']
+                    ]
+                },
+                //onlyMimes: ["image", "text/plain"] // Get files of requested mime types only
+                lang: 'vi',
+            };
+            $('#elfinder').elfinder(options).elfinder('instance');
+        });
+        function getUrlParam(paramName) {
+            var reParam = new RegExp('(?:[\?&]|&)' + paramName + '=([^&]+)', 'i');
+            var match = window.location.search.match(reParam);
+            return (match && match.length > 1) ? match[1] : null;
+        }
+    </script>
+}

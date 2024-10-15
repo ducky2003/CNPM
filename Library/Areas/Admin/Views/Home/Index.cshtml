@@ -1,0 +1,763 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Library.Entities
+@inject UserManager<User> UserManager
+@{
+    var user = UserManager.GetUserAsync(User).Result;
+    ViewData["Title"] = "Trang quản trị";
+}
+
+<div class="my-25 t-thead-bg">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xxl-12 mb-25">
+                <div class="card banner-feature--18 new d-flex">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card-body px-25">
+                                    <h1 class="banner-feature__heading">
+                                        Xin chào, @user.FirstName @user.LastName! Chào
+                                        mừng bạn đến với trang quản trị!
+                                    </h1>
+                                    <p class="banner-feature__para">
+                                        Có rất nhiều điều thú vị đang chờ bạn
+                                        khám phá. Bắt đầu ngay bây giờ bằng cách chọn một trong các tùy chọn bên dưới
+                                        hoặc sử dụng thanh tìm kiếm để tìm kiếm điều gì đó cụ thể.
+                                    </p>
+                                    <div class="d-flex justify-content-sm-start justify-content-center">
+                                        <button class="btn btn-primary color-white rounded-pill fs-15">Bắt đầu</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="banner-feature__shape h-100">
+                                    <img src="/img/danial.png" alt="banner-img">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-sm-6 col-ssm-12 mb-25">
+                <!-- Card 1  -->
+                <div class="ap-po-details ap-po-details--2 p-25 radius-xl d-flex justify-content-between">
+                    <div class="overview-content w-100">
+                        <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
+                            <div class="ap-po-details__titlebar">
+                                <h1>10+</h1>
+                                <p>Đầu sách mới</p>
+                            </div>
+                            <div class="ap-po-details__icon-area">
+                                <div class="svg-icon order-bg-opacity-primary color-primary">
+                                    <i class="uil uil-arrow-growth"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ap-po-details-time">
+                            <span class="color-success">
+                                <i class="las la-arrow-up"></i>
+                                <strong>1%</strong>
+                            </span>
+                            <small>So với tháng trước</small>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card 1 End  -->
+            </div>
+            <div class="col-xxl-3 col-sm-6  col-ssm-12 mb-25">
+                <!-- Card 2 -->
+                <div class="ap-po-details ap-po-details--2 p-25 radius-xl d-flex justify-content-between">
+                    <div class="overview-content w-100">
+                        <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
+                            <div class="ap-po-details__titlebar">
+                                <h1>10</h1>
+                                <p>Đọc giả</p>
+                            </div>
+                            <div class="ap-po-details__icon-area">
+                                <div class="svg-icon order-bg-opacity-secondary color-secondary">
+                                    <i class="uil uil-users-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ap-po-details-time">
+                            <span class="color-success">
+                                <i class="las la-arrow-up"></i>
+                                <strong>2%</strong>
+                            </span>
+                            <small>So với tháng trước</small>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card 2 End  -->
+            </div>
+            <div class="col-xxl-3 col-sm-6  col-ssm-12 mb-25">
+                <!-- Card 3 -->
+                <div class="ap-po-details ap-po-details--2 p-25 radius-xl d-flex justify-content-between">
+                    <div class="overview-content w-100">
+                        <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
+                            <div class="ap-po-details__titlebar">
+                                <h1>100,000 VND</h1>
+                                <p>Tổng chi phí</p>
+                            </div>
+                            <div class="ap-po-details__icon-area">
+                                <div class="svg-icon order-bg-opacity-success color-success">
+                                    <i class="uil uil-usd-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ap-po-details-time">
+                            <span class="color-danger">
+                                <i class="las la-arrow-down"></i>
+                                <strong>5.36%</strong>
+                            </span>
+                            <small>So với tháng trước</small>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card 3 End  -->
+            </div>
+            <div class="col-xxl-3 col-sm-6  col-ssm-12 mb-25">
+                <!-- Card 4  -->
+                <div class="ap-po-details ap-po-details--2 p-25 radius-xl d-flex justify-content-between">
+                    <div class="overview-content w-100">
+                        <div class=" ap-po-details-content d-flex flex-wrap justify-content-between">
+                            <div class="ap-po-details__titlebar">
+                                <h1>20</h1>
+                                <p>Lượt truy cập mới</p>
+                            </div>
+                            <div class="ap-po-details__icon-area">
+                                <div class="svg-icon order-bg-opacity-infos color-infos">
+                                    <i class="uil uil-tachometer-fast"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ap-po-details-time">
+                            <span class="color-success">
+                                <i class="las la-arrow-up"></i>
+                                <strong>20%</strong>
+                            </span>
+                            <small>So với tháng trước</small>
+                        </div>
+                    </div>
+                </div>
+                <!-- Card 4 End  -->
+            </div>
+            <div class="col-xxl-4 mb-25">
+                <div class="card border-0 px-25">
+                    <div class="card-header px-0 border-0">
+                        <h6>Đầu sách mới</h6>
+                        <div class="card-extra">
+                            <ul class="card-tab-links nav-tabs nav" role="tablist">
+                                <li>
+                                    <a class="active" href="#t_selling-today" data-bs-toggle="tab"
+                                       id="t_selling-today-tab" role="tab" aria-selected="true">
+                                        Hôm nay
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#t_selling-week" data-bs-toggle="tab" id="t_selling-week-tab" role="tab"
+                                       aria-selected="true">
+                                        Tuần này
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#t_selling-month" data-bs-toggle="tab" id="t_selling-month-tab" role="tab"
+                                       aria-selected="true">
+                                        Tháng này
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="t_selling-today" role="tabpanel"
+                                 aria-labelledby="t_selling-today-tab">
+                                <div class="selling-table-wrap">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Số lượng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/HocIT.jpeg" alt="img">
+                                                            <span>Tôi học IT</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>132</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Microservice.jpg" alt="img">
+                                                            <span>Mô hình Microservices</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>17</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/js.webp" alt="img">
+                                                            <span>JavaScript Tricks</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>57</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/react.jpg" alt="img">
+                                                            <span>ReactJS Hooks Learning</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>54</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Nodejs.jpeg" alt="img">
+                                                            <span>NodeJS RestFul API</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>14</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="t_selling-week" role="tabpanel"
+                                 aria-labelledby="t_selling-week-tab">
+                                <div class="selling-table-wrap">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Số lượng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/HocIT.jpeg" alt="img">
+                                                            <span>Tôi học IT</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>132</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Microservice.jpg" alt="img">
+                                                            <span>Mô hình Microservices</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>17</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/js.webp" alt="img">
+                                                            <span>JavaScript Tricks</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>57</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/react.jpg" alt="img">
+                                                            <span>ReactJS Hooks Learning</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>54</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Nodejs.jpeg" alt="img">
+                                                            <span>NodeJS RestFul API</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>14</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="t_selling-month" role="tabpanel"
+                                 aria-labelledby="t_selling-month-tab">
+                                <div class="selling-table-wrap">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless ">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Số lượng</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/HocIT.jpeg" alt="img">
+                                                            <span>Tôi học IT</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>132</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Microservice.jpg" alt="img">
+                                                            <span>Mô hình Microservices</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>17</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/js.webp" alt="img">
+                                                            <span>JavaScript Tricks</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>57</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/react.jpg" alt="img">
+                                                            <span>ReactJS Hooks Learning</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>54</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                 src="/img/Nodejs.jpeg" alt="img">
+                                                            <span>NodeJS RestFul API</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>14</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xxl-8 mb-25">
+                <div class="card border-0 px-25">
+                    <div class="card-header px-0 border-0">
+                        <h6>TOP Sách được đọc nhiều</h6>
+                        <div class="card-extra">
+                            <ul class="card-tab-links nav-tabs nav" role="tablist">
+                                <li>
+                                    <a class="active" href="#t_selling-today222" data-bs-toggle="tab"
+                                       id="t_selling-today222-tab" role="tab" aria-selected="true">
+                                        Hôm nay
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#t_selling-week222" data-bs-toggle="tab" id="t_selling-week222-tab"
+                                       role="tab" aria-selected="true">
+                                        Tuần này
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#t_selling-month333" data-bs-toggle="tab" id="t_selling-month333-tab"
+                                       role="tab" aria-selected="true">
+                                        Tháng này
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="tab-content">
+                            <div class="tab-pane fade active show" id="t_selling-today222" role="tabpanel"
+                                 aria-labelledby="t_selling-today222-tab">
+                                <div class="selling-table-wrap selling-table-wrap--source">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Tác giả</th>
+                                                    <th>Số lưọng mượn</th>
+                                                    <th>Đánh giá</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/HocIT.jpeg" alt="img">
+                                                                <span>Tôi học IT</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Nguyễn Hoàng Trung</td>
+                                                    <td>
+                                                        50
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/js.webp" alt="img">
+                                                                <span>JavaScript Tricks</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Đặng Ngọc Sơn</td>
+                                                    <td>
+                                                        129
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Microservice.jpg" alt="img">
+                                                                <span>Mô hình Microservices</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Johnson Danie</td>
+                                                    <td>
+                                                        90
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Nodejs.jpeg" alt="img">
+                                                                <span>NodeJS RestFul API</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Lương Thế Hiền</td>
+                                                    <td>
+                                                        34
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/react.jpg" alt="img">
+                                                                <span>ReactJS Hooks Learning</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Trần Ngọc Sang</td>
+                                                    <td>
+                                                        40
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="t_selling-week222" role="tabpanel"
+                                 aria-labelledby="t_selling-week222-tab">
+                                <div class="selling-table-wrap selling-table-wrap--source">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Tác giả</th>
+                                                    <th>Số lưọng mượn</th>
+                                                    <th>Đánh giá</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/HocIT.jpeg" alt="img">
+                                                                <span>Tôi học IT</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Nguyễn Hoàng Trung</td>
+                                                    <td>
+                                                        50
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/js.webp" alt="img">
+                                                                <span>JavaScript Tricks</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Đặng Ngọc Sơn</td>
+                                                    <td>
+                                                        129
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Microservice.jpg" alt="img">
+                                                                <span>Mô hình Microservices</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Johnson Danie</td>
+                                                    <td>
+                                                        90
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Nodejs.jpeg" alt="img">
+                                                                <span>NodeJS RestFul API</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Lương Thế Hiền</td>
+                                                    <td>
+                                                        34
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/react.jpg" alt="img">
+                                                                <span>ReactJS Hooks Learning</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Trần Ngọc Sang</td>
+                                                    <td>
+                                                        40
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="t_selling-month333" role="tabpanel"
+                                 aria-labelledby="t_selling-month333-tab">
+                                <div class="selling-table-wrap selling-table-wrap--source">
+                                    <div class="table-responsive">
+                                        <table class="table table--default table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th>Tên sách</th>
+                                                    <th>Danh mục</th>
+                                                    <th>Tác giả</th>
+                                                    <th>Số lưọng mượn</th>
+                                                    <th>Đánh giá</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/HocIT.jpeg" alt="img">
+                                                                <span>Tôi học IT</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Nguyễn Hoàng Trung</td>
+                                                    <td>
+                                                        50
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/js.webp" alt="img">
+                                                                <span>JavaScript Tricks</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Đặng Ngọc Sơn</td>
+                                                    <td>
+                                                        129
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Microservice.jpg" alt="img">
+                                                                <span>Mô hình Microservices</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Johnson Danie</td>
+                                                    <td>
+                                                        90
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/Nodejs.jpeg" alt="img">
+                                                                <span>NodeJS RestFul API</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Lương Thế Hiền</td>
+                                                    <td>
+                                                        34
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="selling-product-img d-flex align-items-center">
+                                                            <div class="selling-product-img d-flex align-items-center">
+                                                                <img class="radius-xs img-fluid order-bg-opacity-primary"
+                                                                     src="/img/react.jpg" alt="img">
+                                                                <span>ReactJS Hooks Learning</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Công nghệ</td>
+                                                    <td>Trần Ngọc Sang</td>
+                                                    <td>
+                                                        40
+                                                    </td>
+                                                    <td>
+                                                        <div class="rating-readOnly d-flex justify-content-end"></div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ends: .row -->
+    </div>
+</div>

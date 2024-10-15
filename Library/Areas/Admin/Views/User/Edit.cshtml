@@ -1,0 +1,462 @@
+﻿@using Library.Areas.Admin.Models
+@model (ViewUser CurrentUser, EditUser EditingUser)
+@{
+    ViewData["Title"] = "Chình sửa thông tin người dùng";
+}
+<div class="profile-setting ">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-main">
+                    <h4 class="breadcrumb-title">Chình sửa thông tin người dùng</h4>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-lg-4 col-sm-5">
+                <!-- Profile Acoount -->
+                <div class="card mb-25">
+                    <div class="card-body text-center p-0">
+                        <div class="account-profile border-bottom pt-25 px-25 pb-0 flex-column d-flex align-items-center ">
+                            <div class="ap-img mb-20 pro_img_wrapper">
+                                <label for="file-upload">
+                                    <img class="dm-upload-avatar avatr-src ap-img__main rounded-circle wh-120" src="@Model.CurrentUser.ProfileImage"
+                                         alt="profile">
+                                    <span class="cross" id="remove_pro_pic">
+                                        <img src="/img/svg/camera.svg" alt="camera" class="svg">
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="ap-nameAddress pb-3">
+                                <h5 class="ap-nameAddress__title">@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h5>
+                                <p class="ap-nameAddress__subTitle fs-14 m-0">@Model.CurrentUser.Role</p>
+                            </div>
+                        </div>
+                        <div class="ps-tab p-20 pb-25">
+                            <div class="nav flex-column text-start" id="v-pills-tab" role="tablist"
+                                 aria-orientation="vertical">
+                                <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
+                                   href="#v-pills-home" role="tab" aria-selected="true">
+                                    <img src="/img/svg/user.svg" alt="user" class="svg">Hồ sơ người dùng
+                                </a>
+                                <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
+                                   href="#v-pills-profile" role="tab" aria-selected="false">
+                                    <img src="/img/svg/settings.svg" alt="setting" class="svg">Cài đặt tài khoản
+                                </a>
+                                <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
+                                   href="#v-pills-messages" role="tab" aria-selected="false">
+                                    <img src="/img/svg/key.svg" alt="key" class="svg">Đặt lại mật khẩu
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Profile Acoount End -->
+            </div>
+            <div class="col-xxl-9 col-lg-8 col-sm-7">
+                <div class="as-cover">
+                    <div class="as-cover__imgWrapper">
+                        <input id="file-upload1" type="file" name="fileUpload" class="d-none">
+                        <label for="file-upload1">
+                            <img src="/img/cover-photo.webp" alt="image" class="w-100 profile-cover-photo">
+                            <span class="ap-cover__changeImgBtn">
+                                <span class="btn btn-outline-primary cover-btn">
+                                    <img src="/img/svg/camera.svg" alt="camera" class="svg">Thay ảnh bìa
+                                </span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-50">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                             aria-labelledby="v-pills-home-tab">
+                            <!-- Edit Profile -->
+                            <div class="edit-profile mt-25">
+                                <div class="card">
+                                    <div class="card-header px-sm-25 px-3">
+                                        <div class="edit-profile__title">
+                                            <h6>Chỉnh sửa hồ sơ người dùng</h6>
+                                            <span class="fs-13 color-light fw-400">
+                                                Thiết lập các thông tin cá nhân cơ
+                                                bản của người dùng
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" asp-action="UpdateUser" asp-controller="User" asp-area="Admin" asp-route-id="@Model.CurrentUser.Id" method="POST" class="row justify-content-center" id="edit-profile-form">
+                                            @Html.AntiForgeryToken()
+                                            <input id="file-upload" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic" type="file" asp-for="@Model.EditingUser.ImageFile" class="d-none upload-avatar-input">
+                                            <div class="col-6">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <div class="form-group mb-20">
+                                                        <label asp-for="@Model.EditingUser.FirstName">Họ và tên lót</label>
+                                                        <input type="text" id="first-name" class="form-control" asp-for="@Model.EditingUser.FirstName" value="@Model.CurrentUser.FirstName"
+                                                               placeholder="Nhập họ và tên lót">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label asp-for="@Model.EditingUser.LastName">Tên</label>
+                                                        <input type="text" id="last-name" class="form-control" asp-for="@Model.EditingUser.LastName" value="@Model.CurrentUser.LastName"
+                                                               placeholder="Nhập tên">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label asp-for="@Model.EditingUser.Phone">Số điện thoại</label>
+                                                        <input type="tel" id="phone-number" class="form-control" asp-for="@Model.EditingUser.Phone" value="@Model.CurrentUser.Phone"
+                                                               placeholder="Số điện thoại">
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <label asp-for="@Model.EditingUser.Address">Địa chỉ</label>
+                                                        <input type="text" id="address" class="form-control" asp-for="@Model.EditingUser.Address" value="@Model.CurrentUser.Address"
+                                                               placeholder="Địa chỉ">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <div class="form-group mb-20 form-group-calender">
+                                                        <label for="datepicker">Ngày sinh</label>
+                                                        <div class="dm-date-picker">
+                                                            <div class="form-group mb-0 form-group-calender position-relative">
+                                                                <input type="text" class="form-control form-control-lg" asp-for="@Model.EditingUser.DateOfBirth"
+                                                                       id="datepicker"
+                                                                       value="@Model.CurrentUser.DateOfBirth?.ToString("yyyy/MM/dd")"
+                                                                       placeholder="Chọn hoặc nhập ngày sinh dạng: 2000/01/31">
+                                                                <a>
+                                                                    <img class="svg" src="/img/svg/calendar.svg"
+                                                                         alt="calendar">
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <div class="role-option">
+                                                            <label for="role">
+                                                                Vai trò người dùng
+                                                            </label>
+                                                            <select role="select" id="user-role" asp-for="@Model.EditingUser.RoleName"
+                                                                    class="js-example-basic-single js-states form-control select2-results__option"
+                                                                    data-select2-id="@Model.CurrentUser.Role" tabindex="-1" aria-hidden="true">
+                                                                @await Component.InvokeAsync("RoleOptions", new { selectedRole = @Model.CurrentUser.Role })
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-20">
+                                                        <div class="workspace-option">
+                                                            <label for="workspace">
+                                                                Nơi làm việc
+                                                            </label>
+                                                            @* <select role="select" asp-for="@Model.EditingUser.WorkspaceId"
+                                                                    class="js-example-basic-single js-states form-control select2-results__option"
+                                                                    id="workspace" data-select2-id="@Model.CurrentUser.WorkspaceId" tabindex="-1"
+                                                                    aria-hidden="true">
+                                                                @await Component.InvokeAsync("WorkspaceOptions", new { selected = @Model.CurrentUser.WorkspaceId })
+                                                            </select> *@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="button-group d-flex justify-content-end flex-wrap pt-30 mb-15">
+                                                <button type="submit" disabled
+                                                        class="btn btn-primary btn-default rounded-pill me-15 submit-btn">
+                                                    Cập
+                                                    nhật thông tin
+                                                </button>
+                                                <a asp-action="Index" asp-controller="User" asp-area="Admin"
+                                                   class="btn btn-light btn-default rounded-pill">
+                                                    Huỷ bỏ
+                                                </a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit Profile End -->
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                             aria-labelledby="v-pills-profile-tab">
+                            <!-- Edit Account -->
+                            <div class="edit-profile mt-25">
+                                <form sp-action="UpdateUser" asp-controller="User" asp-area="Admin" asp-route-id="@Model.CurrentUser.Id" method="POST" class="card" id="edit-account-setting">
+                                    <div class="card-header  px-sm-25 px-3">
+                                        <div class="edit-profile__title">
+                                            <h6>Cài đặt tài khoản</h6>
+                                            <span class="fs-13 color-light fw-400">
+                                                Thiết lập các thông tin tài khoản của
+                                                người dùng
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row justify-content-center mb-20">
+                                            <div class="col-xxl-6">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <div class="form-group mb-20">
+                                                        <label>Tên người dùng</label>
+                                                        <input type="text" class="form-control" id="UserName" disabled value="@Model.CurrentUser.Email"
+                                                               placeholder="user@123">
+                                                        <small id="passwordHelpInline2" class="text-light fs-13">
+                                                            Trường
+                                                            này không được phép thay
+                                                            đổi
+                                                        </small>
+                                                    </div>
+                                                    <div class="form-group mb-1">
+                                                        <label asp-for="@Model.EditingUser.Email">Địa chỉ E-mail</label>
+                                                        <input type="email" id="email" class="form-control" asp-for="@Model.EditingUser.Email" value="@Model.CurrentUser.Email"
+                                                               placeholder="Nhập E-mail">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row justify-content-center align-items-center">
+                                            <div class="col-xxl-6">
+                                                <div class="d-flex justify-content-between mt-1 align-items-center flex-wrap">
+                                                    <div class="py-10">
+                                                        <h6>Đóng vĩnh viễn tài khoản này</h6>
+                                                        <span class="fs-13 color-light fw-400">
+                                                            Xoá mọi hoạt động và dữ
+                                                            liệu của tài khoản này
+                                                        </span>
+                                                    </div>
+                                                    <div data-userid="@Model.CurrentUser.Id" data-username="@Model.CurrentUser.FirstName @Model.CurrentUser.LastName"
+                                                         data-image="@Model.CurrentUser.ProfileImage"
+                                                         data-userrole="@Model.CurrentUser.Role"
+                                                         class="my-sm-0 my-10 py-10 user-data-container">
+                                                        <a title="Xoá" data-bs-toggle="modal"
+                                                           data-bs-target="#confirm-delete-user"
+                                                           class="btn btn-danger btn-default rounded-pill fw-400">
+                                                            Xoá
+                                                            tài khoản
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="button-group d-flex justify-content-end flex-wrap pt-30 mb-15">
+                                            <button type="submit" disabled
+                                                    class="btn btn-primary btn-default rounded-pill me-15 submit-btn">
+                                                Cập
+                                                nhật thông tin
+                                            </button>
+                                            <a asp-action="Index" asp-controller="User" asp-area="Admin"
+                                               class="btn btn-light btn-default rounded-pill">
+                                                Huỷ bỏ
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- Edit Profile End -->
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                             aria-labelledby="v-pills-messages-tab">
+                            <!-- Edit Profile -->
+                            <div class="edit-profile mt-25">
+                                <div class="card">
+                                    <div class="card-header  px-sm-25 px-3">
+                                        <div class="edit-profile__title">
+                                            <h6>Đặt lại mật khẩu</h6>
+                                            <span class="fs-13 color-light fw-400">Đặt lại mật khẩu cho tài khoản</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row justify-content-center">
+                                            <div class="col-12">
+                                                <div class="edit-profile__body mx-xl-20">
+                                                    <form>
+                                                        <div class="button-group d-flex justify-content-end flex-wrap pt-30 mb-15">
+                                                            <button type="submit"
+                                                                    class="btn btn-warning btn-default rounded-pill me-15">
+                                                                Đặt
+                                                                lại mật khẩu
+                                                            </button>
+                                                            <a asp-action="Index" asp-controller="User"
+                                                               asp-area="Admin"
+                                                               class="btn btn-light btn-default rounded-pill">
+                                                                Huỷ
+                                                                bỏ
+                                                            </a>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Edit Profile End -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="./ConfirmDeleteUser.cshtml" />
+@section TableAction {
+    <script>
+        const deleteModal = document.getElementById('confirm-delete-user')
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', event => {
+                const dataContainer = $(event.relatedTarget).closest('.user-data-container');
+                // Extract info from data-bs-* attributes
+                const userData = {
+                    id: dataContainer.data('userid'),
+                    name: dataContainer.data('username'),
+                    image: dataContainer.data('image'),
+                    role: dataContainer.data('userrole')
+                }
+                const modalData = {
+                    userId: deleteModal.querySelector('.user-id'),
+                    userName: deleteModal.querySelector('.user-name'),
+                    userImage: deleteModal.querySelector('.user-image-url'),
+                    userRole: deleteModal.querySelector('.user-role')
+                }
+                const form = deleteModal.querySelector('#confirm-action-form')
+                const lockoutBtn = deleteModal.querySelector('.lockout-btn')
+                const deleteBtn = deleteModal.querySelector('.delete-btn')
+                const formAction = {
+                    delete: '/admin/user/delete',
+                    lock: '/admin/user/lockout'
+                }
+                // If necessary, you could initiate an Ajax request here
+                // and then do the updating in a callback.
+                // Update the modal's content.
+                modalData.userId.value = userData.id
+                modalData.userName.textContent = userData.name
+                modalData.userImage.src = userData.image
+                modalData.userRole.textContent = userData.role
+                lockoutBtn.addEventListener('click', () => {
+                    form.action = formAction.lock
+                    form.submit()
+                })
+                deleteBtn.addEventListener('click', () => {
+                    form.action = formAction.delete
+                    form.submit()
+                })
+            })
+        }
+    </script>
+}
+
+@section EditUser {
+    <script>
+        // Validate edit profile form
+        const editProfileForm = $('#edit-profile-form')
+        const editAccountSettingForm = $('#edit-account-setting')
+        const editProfileFormSubmitBtn = editProfileForm.find('.submit-btn')
+        const editAccountSettingFormSubmitBtn = editAccountSettingForm.find('.submit-btn')
+        const validatorProfile = new JustValidate('#edit-profile-form', {
+            validateBeforeSubmitting: true,
+        });
+        validatorProfile.addField('#first-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+            {
+                rule: 'minLength',
+                errorMessage: 'Họ phải có ít nhất 2 ký tự',
+                value: 2,
+            },
+            {
+                rule: 'maxLength',
+                errorMessage: 'Họ không được vượt quá 20 ký tự',
+                value: 20,
+            }
+        ]);
+
+        validatorProfile.addField('#last-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+            {
+                rule: 'minLength',
+                errorMessage: 'Tên phải có ít nhất 2 ký tự',
+                value: 2,
+            },
+        ]);
+        validatorProfile.addField('#phone-number', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+            {
+                rule: 'integer',
+                errorMessage: 'Trường này chỉ được nhập số',
+                value: 2,
+            },
+        ]);
+        validatorProfile.addField('#address', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+            {
+                rule: 'minLength',
+                errorMessage: 'Địa chỉ phải có ít nhất 10 ký tự',
+                value: 10,
+            },
+        ]);
+        validatorProfile.addField('#datepicker', [
+            {
+                plugin: JustValidatePluginDate(() => ({
+                    required: true,
+                    format: 'yyyy/MM/dd',
+                })),
+                errorMessage: 'Ngày sinh phải có định dạng: 2000/01/31',
+            },
+        ]);
+        validatorProfile.onSuccess(function () {
+            $("#edit-profile-form").submit();
+        });
+        validatorProfile.onValidate(function (e) {
+            if (e.isValid) {
+                editProfileFormSubmitBtn.attr('disabled', false)
+            } else {
+                editProfileFormSubmitBtn.attr('disabled', true)
+            }
+        })
+
+        $("#user-role").change(function () {
+            editProfileFormSubmitBtn.attr('disabled', false)
+        });
+        $("#workspace").change(function () {
+            editProfileFormSubmitBtn.attr('disabled', false)
+        });
+        // Validate edit account setting form
+        const validatorAccountSetting = new JustValidate('#edit-account-setting', {
+            validateBeforeSubmitting: true,
+        });
+        validatorAccountSetting.addField('#email', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+            {
+                rule: 'email',
+                errorMessage: 'Trường này phải là email',
+            },
+        ]);
+        validatorAccountSetting.onSuccess(function () {
+            $("#edit-account-setting").submit();
+        });
+        validatorAccountSetting.onValidate(function (e) {
+            if (e.isValid) {
+                editAccountSettingFormSubmitBtn.attr('disabled', false)
+            } else {
+                editAccountSettingFormSubmitBtn.attr('disabled', true)
+            }
+        })
+        const uploadAvatarInput = $('.upload-avatar-input')
+        const avatarSrc = $('.avatr-src')
+        uploadAvatarInput.on('change', function () {
+            const file = this.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                avatarSrc.attr('src', url)
+                editProfileFormSubmitBtn.attr('disabled', false)
+            }
+        })
+
+    </script>
+}

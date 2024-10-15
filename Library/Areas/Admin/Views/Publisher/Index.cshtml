@@ -1,0 +1,195 @@
+﻿@using Library.Models
+@using Library.Areas.Admin.Models
+@model IList<PublisherView>
+@{
+    ViewData["Title"] = "Quản lý nhà xuất bản";
+    var totalPublishers = ViewBag.TotalPublishers;
+    var currentPage = ViewBag.CurrentPage;
+    var currentPageSize = ViewBag.CurrentPageSize;
+    var totalPage = ViewBag.TotalPages;
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="breadcrumb-main user-member justify-content-sm-between ">
+                <div class=" d-flex flex-wrap justify-content-center breadcrumb-main__wrapper">
+                    <div class="d-flex align-items-center user-member__title justify-content-center me-sm-25">
+                        <h4 class="fw-500 breadcrumb-title">Quản lý danh sách nhà xuất bản</h4>
+                    </div>
+                </div>
+                <div class="action-btn d-flex gap-4">
+                    <a class="btn px-15 btn-primary rounded-pill" data-bs-toggle="modal"
+                       data-bs-target="#create-new-publisher">
+                        <i class="las la-plus fs-16"></i>Thêm nhà xuất bản
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="userDatatable global-shadow border-light-0 p-30 bg-white radius-xl w-100 mb-30">
+                <div class="table-responsive">
+                    <table class="table mb-0 table-striped table-hover">
+                        <thead>
+                            <tr class="userDatatable-header radius-xs">
+                                <th>
+                                    <span class="userDatatable-title">ID</span>
+                                </th>
+                                <th>
+                                    <span class="userDatatable-title">TÊN NHÀ XUẤT BẢN</span>
+                                </th>
+                                <th>
+                                    <span class="userDatatable-title">ĐỊA CHỈ NHÀ XUẤT BẢN</span>
+                                </th>
+                                <th>
+                                    <span class="userDatatable-title">NGƯỜI TẠO</span>
+                                </th>
+                                <th>
+                                    <span class="userDatatable-title">THỜI GIAN TẠO</span>
+                                </th>
+                                <th class="actions">
+                                    <span class="userDatatable-title float-end">HÀNH ĐỘNG</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (@totalPublishers == 0)
+                            {
+                                <tr>
+                                    <td colspan="7">
+                                        <div class="card card-default card-md mb-4">
+                                            <div class="card-body">
+                                                <div class="dm-empty text-center">
+                                                    <div class="dm-empty__image">
+                                                        <img src="/img/svg/empty.svg" alt="Empty table">
+                                                    </div>
+                                                    <div class="dm-empty__text">
+                                                        <p class="">Không có nhà xuất bản nào!</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            @foreach (var publisher in Model)
+                            {
+                                <tr class="publisher-data-container" data-id="@publisher.PublisherId"
+                                    data-address="@publisher.Address" data-name="@publisher.Name">
+                                    <td>@publisher.PublisherId</td>
+                                    <td>
+                                        <div class="d-flex">
+                                            <div class="userDatatable-inline-title">
+                                                <a href="#" class="text-dark fw-500">
+                                                    <h6>@publisher.Name</h6>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="userDatatable-content--subject">
+                                            @publisher.Address
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="userDatatable-content--subject">
+                                            @publisher.AddedByName
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="userDatatable-content--priority">
+                                            @publisher.AddedAt?.ToString("HH:mm - dd/MM/yyyy")
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+                                            <li>
+                                                <a title="Chỉnh sửa NXB" class="edit" data-bs-toggle="modal"
+                                                   data-bs-target="#update-publisher">
+                                                    <i class="uil uil-edit"></i>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a title="Xoá NXB" class="remove" data-bs-toggle="modal"
+                                                   data-bs-target="#delete-publisher">
+                                                    <i class="uil uil-trash-alt"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-end pt-30">
+                    <nav class="dm-page ">
+                        <ul class="dm-pagination d-flex">
+                            <li class="dm-pagination__item">
+                                @if (currentPage > 1)
+                                {
+                                    var prevPage = currentPage - 1;
+                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin"
+                                       asp-route-page="@prevPage"
+                                       class="dm-pagination__link rounded-pill pagination-control">
+                                        <span class="la la-angle-left"></span>
+                                    </a>
+                                }
+                                @for (int i = 1; i <= totalPage; i++)
+                                {
+                                    var active = i == currentPage ? "active" : "";
+                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin" asp-route-page="@i"
+                                       class="dm-pagination__link rounded-pill @active">
+                                        <span class="page-number">@i</span>
+                                    </a>
+                                }
+                                @if (currentPage < totalPage && totalPage > 1)
+                                {
+                                    var nextPage = currentPage + 1;
+                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin"
+                                       asp-route-page="@nextPage"
+                                       class="dm-pagination__link rounded-pill pagination-control">
+                                        <span class="la la-angle-right"></span>
+                                    </a>
+                                }
+                            </li>
+                            <li class="dm-pagination__item">
+                                <div class="paging-option">
+                                    <form asp-action="Index" asp-controller="Publisher" method="GET"
+                                          id="page-size-form">
+                                        <input type="hidden" name="page" value="@currentPage" />
+                                        <select id="change-page-size" class="page-size-select" name="pageSize"
+                                                class="page-selection rounded-pill">
+                                            <option value="10" selected="@(currentPageSize == 10)">
+                                                10 NXB/trang
+                                            </option>
+                                            <option value="25" selected="@(currentPageSize == 25)">
+                                                25 NXB/trang
+                                            </option>
+                                            <option value="50" selected="@(currentPageSize == 50)">
+                                                50 NXB/trang
+                                            </option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+            const pageSizeForm = document.getElementById('page-size-form')
+            const pageSelection = $('#change-page-size')
+            pageSelection.change(function () {
+                pageSizeForm.submit()
+            })
+        },
+    )
+</script>
