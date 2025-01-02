@@ -9,10 +9,12 @@ namespace Library.Entities
         public int PublisherId { get; set; }
         public string Name { get; set; } = null!;
         public string? Address { get; set; } = null!;
+        public string? Slug { get; set; }
         public DateTime AddedAt { get; set; }
         [Required]
         [ForeignKey("User")]
         public string AddedById { get; set; } = null!;
         public virtual User AddedBy { get; set; } = null!;
+        public virtual ICollection<Book> Books { get; set; } = null!;
     }
 }

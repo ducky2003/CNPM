@@ -1,12 +1,11 @@
 ﻿@using Library.Models
 @using Library.Areas.Admin.Models
-@model IList<PublisherView>
+@model IList<CategoryViewModel>
 @{
-    ViewData["Title"] = "Quản lý nhà xuất bản";
-    var totalPublishers = ViewBag.TotalPublishers;
+    ViewData["Title"] = "Quản lý danh mục sách";
     var currentPage = ViewBag.CurrentPage;
     var currentPageSize = ViewBag.CurrentPageSize;
-    var totalPage = ViewBag.TotalPages;
+    var totalPage = ViewBag.TotalPage;
 }
 <div class="container-fluid">
     <div class="row">
@@ -14,13 +13,12 @@
             <div class="breadcrumb-main user-member justify-content-sm-between ">
                 <div class=" d-flex flex-wrap justify-content-center breadcrumb-main__wrapper">
                     <div class="d-flex align-items-center user-member__title justify-content-center me-sm-25">
-                        <h4 class="fw-500 breadcrumb-title">Quản lý danh sách nhà xuất bản</h4>
+                        <h4 class="fw-500 breadcrumb-title">Quản lý danh mục sách</h4>
                     </div>
                 </div>
                 <div class="action-btn d-flex gap-4">
-                    <a class="btn px-15 btn-primary rounded-pill" data-bs-toggle="modal"
-                       data-bs-target="#create-new-publisher">
-                        <i class="las la-plus fs-16"></i>Thêm nhà xuất bản
+                    <a class="btn px-15 btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#create-new-category">
+                        <i class="las la-plus fs-16"></i>Thêm danh mục
                     </a>
                 </div>
             </div>
@@ -37,10 +35,7 @@
                                     <span class="userDatatable-title">ID</span>
                                 </th>
                                 <th>
-                                    <span class="userDatatable-title">TÊN NHÀ XUẤT BẢN</span>
-                                </th>
-                                <th>
-                                    <span class="userDatatable-title">ĐỊA CHỈ NHÀ XUẤT BẢN</span>
+                                    <span class="userDatatable-title">TÊN DANH MỤC</span>
                                 </th>
                                 <th>
                                     <span class="userDatatable-title">NGƯỜI TẠO</span>
@@ -48,71 +43,78 @@
                                 <th>
                                     <span class="userDatatable-title">THỜI GIAN TẠO</span>
                                 </th>
+                                <th>
+                                    <span class="userDatatable-title">TRẠNG THÁI</span>
+                                </th>
                                 <th class="actions">
                                     <span class="userDatatable-title float-end">HÀNH ĐỘNG</span>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @if (@totalPublishers == 0)
+                            @foreach (var category in Model)
                             {
-                                <tr>
-                                    <td colspan="7">
-                                        <div class="card card-default card-md mb-4">
-                                            <div class="card-body">
-                                                <div class="dm-empty text-center">
-                                                    <div class="dm-empty__image">
-                                                        <img src="/img/svg/empty.svg" alt="Empty table">
-                                                    </div>
-                                                    <div class="dm-empty__text">
-                                                        <p class="">Không có nhà xuất bản nào!</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                            @foreach (var publisher in Model)
-                            {
-                                <tr class="publisher-data-container" data-id="@publisher.PublisherId"
-                                    data-address="@publisher.Address" data-name="@publisher.Name">
-                                    <td>@publisher.PublisherId</td>
+                                <tr class="category-data-container" data-id="@category.CategoryId" data-name="@category.Name" data-visiable="@category.Status">
+                                    <td>@category.CategoryId</td>
                                     <td>
                                         <div class="d-flex">
                                             <div class="userDatatable-inline-title">
                                                 <a href="#" class="text-dark fw-500">
-                                                    <h6>@publisher.Name</h6>
+                                                    <h6>@category.Name</h6>
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="userDatatable-content--subject">
-                                            @publisher.Address
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="userDatatable-content--subject">
-                                            @publisher.AddedByName
+                                            @category.CreatedByName
                                         </div>
                                     </td>
                                     <td>
                                         <div class="userDatatable-content--priority">
-                                            @publisher.AddedAt?.ToString("HH:mm - dd/MM/yyyy")
+                                            @category.CreatedAt?.ToString("HH:mm - dd/MM/yyyy")
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="userDatatable-content d-inline-block">
+                                            @if (!category?.Status ?? false)
+                                            {
+                                                <span class="bg-opacity-danger color-danger rounded-pill userDatatable-content-status">Tạm ẩn</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="bg-opacity-success color-success rounded-pill userDatatable-content-status active">
+                                                    Hiển
+                                                    thị
+                                                </span>
+                                            }
                                         </div>
                                     </td>
                                     <td>
                                         <ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
+                                            @if (category?.Status ?? false)
+                                            {
+                                                <li>
+                                                    <a title="Ẩn danh mục" class="view" data-bs-toggle="modal" data-bs-target="#toogle-visiable-category">
+                                                        <i class="uil uil-eye-slash"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a title="Hiển thị danh mục" class="view" data-bs-toggle="modal" data-bs-target="#toogle-visiable-category">
+                                                        <i class="uil uil-eye"></i>
+                                                    </a>
+                                                </li>
+                                            }
                                             <li>
-                                                <a title="Chỉnh sửa NXB" class="edit" data-bs-toggle="modal"
-                                                   data-bs-target="#update-publisher">
+                                                <a title="Chỉnh sửa danh mục" class="edit" data-bs-toggle="modal" data-bs-target="#update-category">
                                                     <i class="uil uil-edit"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a title="Xoá NXB" class="remove" data-bs-toggle="modal"
-                                                   data-bs-target="#delete-publisher">
+                                                <a title="Xoá danh mục" class="remove" data-bs-toggle="modal" data-bs-target="#delete-category">
                                                     <i class="uil uil-trash-alt"></i>
                                                 </a>
                                             </li>
@@ -130,8 +132,7 @@
                                 @if (currentPage > 1)
                                 {
                                     var prevPage = currentPage - 1;
-                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin"
-                                       asp-route-page="@prevPage"
+                                    <a asp-action="Categories" asp-controller="Categories" asp-area="Admin" asp-route-page="@prevPage"
                                        class="dm-pagination__link rounded-pill pagination-control">
                                         <span class="la la-angle-left"></span>
                                     </a>
@@ -139,7 +140,7 @@
                                 @for (int i = 1; i <= totalPage; i++)
                                 {
                                     var active = i == currentPage ? "active" : "";
-                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin" asp-route-page="@i"
+                                    <a asp-action="Categories" asp-controller="Categories" asp-area="Admin" asp-route-page="@i"
                                        class="dm-pagination__link rounded-pill @active">
                                         <span class="page-number">@i</span>
                                     </a>
@@ -147,8 +148,7 @@
                                 @if (currentPage < totalPage && totalPage > 1)
                                 {
                                     var nextPage = currentPage + 1;
-                                    <a asp-action="Index" asp-controller="Publisher" asp-area="Admin"
-                                       asp-route-page="@nextPage"
+                                    <a asp-action="Categories" asp-controller="Categories" asp-area="Admin" asp-route-page="@nextPage"
                                        class="dm-pagination__link rounded-pill pagination-control">
                                         <span class="la la-angle-right"></span>
                                     </a>
@@ -156,19 +156,18 @@
                             </li>
                             <li class="dm-pagination__item">
                                 <div class="paging-option">
-                                    <form asp-action="Index" asp-controller="Publisher" method="GET"
-                                          id="page-size-form">
+                                    <form asp-action="Categories" asp-controller="Categories" method="GET" id="page-size-form">
                                         <input type="hidden" name="page" value="@currentPage" />
                                         <select id="change-page-size" class="page-size-select" name="pageSize"
                                                 class="page-selection rounded-pill">
                                             <option value="10" selected="@(currentPageSize == 10)">
-                                                10 NXB/trang
+                                                10 danh mục/trang
                                             </option>
                                             <option value="25" selected="@(currentPageSize == 25)">
-                                                25 NXB/trang
+                                                25 danh mục/trang
                                             </option>
                                             <option value="50" selected="@(currentPageSize == 50)">
-                                                50 NXB/trang
+                                                50 danh mục/trang
                                             </option>
                                         </select>
                                     </form>
@@ -181,9 +180,9 @@
         </div>
     </div>
 </div>
-@await Html.PartialAsync("./Create.cshtml", new CreatePublisher())
-@await Html.PartialAsync("./Edit.cshtml", new UpdatePublisher())
-@await Html.PartialAsync("./Delete.cshtml")
+<partial name="./ToogleVisiableCategory.cshtml" />
+<partial name="./Delete.cshtml" />
+<partial name="./Update.cshtml" />
 <script>
     document.addEventListener(
         "DOMContentLoaded",
@@ -196,3 +195,27 @@
         },
     )
 </script>
+@await Html.PartialAsync("./Create.cshtml", new CreateCategory())
+@if (TempData["CategoryMessage"] != null)
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const messageType = '@TempData["Type"]'
+            let icon = "";
+            switch (messageType) {
+                case 'success':
+                    icon = 'check-circle';
+                    break;
+                case 'error':
+                    icon = 'times-circle';
+                    break;
+                case 'warning':
+                    icon = 'exclamation-circle';
+                    break;
+                default:
+                    icon = 'circle-info'
+            }
+            showMessage(messageType, icon, '@TempData["CategoryMessage"]?.ToString()')
+        });
+    </script>
+}

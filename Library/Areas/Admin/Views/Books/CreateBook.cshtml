@@ -1,0 +1,261 @@
+﻿@using Library.Areas.Admin.Models.Book
+@model CreateBook
+@{
+    ViewData["Title"] = "Thêm sách mới";
+}
+
+<div class="CreateProduct">
+    <div class="breadcrumb-main">
+        <h4 class="breadcrumb-title">Thêm sách mới</h4>
+    </div>
+    <div class="row">
+        <form enctype="multipart/form-data" asp-action="CreateBook" asp-controller="Books" asp-area="Admin"
+              method="POST" class="row upload-product justify-content-center" id="">
+            @Html.AntiForgeryToken()
+            <input id="file-upload" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic" type="file"
+                   asp-for="@Model.Image" class="d-none upload-avatar-input">
+            <div class="col-sm-12 col-lg-4 col-xl-4">
+                <div class="card">
+                    <div class="card-body account-profile edit-profile__body ">
+                        <div class="col-12">
+                            <p class="text-danger">@TempData["SystemMessage"]</p>
+                        </div>
+                        <div class="product-image-upload-box">
+                            <div class="product-image-upload" style="background-image: url('/img/chair.png')">
+                            </div>
+                            <label for="file-upload" class="cross" id="remove_pro_pic">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="svg replaced-svg">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                    </path>
+                                    <circle cx="12" cy="13" r="4"></circle>
+                                </svg>
+                            </label>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.Name">Tên sách</label>
+                                <input type="text" id="full-name" class="form-control" asp-for="@Model.Name"
+                                       placeholder="Nhập tên sách">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.CategoryId">Danh mục sách</label>
+                                <select asp-for="@Model.CategoryId" asp-items="@ViewBag.Categories"
+                                        class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.AuthorId">Tác giả</label>
+                                <select asp-for="@Model.AuthorId" asp-items="@ViewBag.Authors" class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.PublisherId">Nhà xuất bản</label>
+                                <select asp-for="@Model.PublisherId" asp-items="@ViewBag.Publishers"
+                                        class="form-control">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.Language">Ngôn ngữ</label>
+                                <select asp-for="@Model.Language" id="language-select" class="form-control">
+                                    <option value="Tiếng Anh">Tiếng Anh</option>
+                                    <option value="Tiếng Việt">Tiếng Việt</option>
+                                    <option value="Tiếng Pháp">Tiếng Pháp</option>
+                                    <option value="Tiếng Trung">Tiếng Trung</option>
+                                    <option value="Tiếng Nhật">Tiếng Nhật</option>
+                                    <option value="Tiếng Hàn">Tiếng Hàn</option>
+                                    <option value="Tiếng Đức">Tiếng Đức</option>
+                                    <option value="Tiếng Nga">Tiếng Nga</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group mb-20">
+                                <label asp-for="@Model.Pages">Số trang</label>
+                                <input type="text" id="address" class="form-control" asp-for="@Model.Pages"
+                                       placeholder="Nhập số trang">
+                            </div>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="ms-1 checkbox-theme-default custom-checkbox">
+                                <input class="checkbox" type="checkbox" asp-for="IsPublish" checked>
+                                <label asp-for="IsPublish">
+                                    <span class="checkbox-text">
+                                        Hiển thị với người đọc
+                                    </span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="button-group d-flex justify-content-end flex-wrap pt-30 mb-15">
+                            <button type="submit" class="btn btn-primary btn-default rounded-pill me-15 submit-btn">
+                                Xác nhận
+                            </button>
+                            <a asp-action="Index" asp-controller="Books" asp-area="Admin"
+                               class="btn btn-light btn-default rounded-pill">
+                                Huỷ bỏ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-8 col-xl-8">
+                <div class="card">
+                    <div class="card-body edit-profile__body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-20 form-element-textarea">
+                                    <label class="il-gray fs-14 fw-500 align-center mb-10"
+                                           asp-for="@Model.ShortDescription">Mô tả ngắn của sách</label>
+                                    <textarea class="form-control" rows="3" asp-for="@Model.ShortDescription">
+                                    </textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group mb-20 book-description">
+                                    <label asp-for="@Model.Description">Mô tả chi tiết</label>
+                                    <textarea id="editor" asp-for="@Model.Description">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        CKEDITOR.ClassicEditor.create(document.getElementById("editor"), {
+            toolbar: {
+                items: [
+                    'findAndReplace', 'selectAll', '|',
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'code', '|',
+                    'bulletedList', 'numberedList', 'todoList', '|',
+                    'outdent', 'indent', '|',
+                    'undo', 'redo',
+                    '-',
+                    'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                    'alignment', '|',
+                    'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed'
+                ],
+                shouldNotGroupWhenFull: true
+            },
+            list: {
+                properties: {
+                    styles: true,
+                    startIndex: true,
+                    reversed: true
+                }
+            },
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                    { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                    { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                    { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                    { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                ]
+            },
+            placeholder: 'Nhập thông tin chi tiết...',
+            fontFamily: {
+                options: [
+                    'default',
+                    'Arial, Helvetica, sans-serif',
+                    'Courier New, Courier, monospace',
+                    'Georgia, serif',
+                    'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                    'Tahoma, Geneva, sans-serif',
+                    'Times New Roman, Times, serif',
+                    'Trebuchet MS, Helvetica, sans-serif',
+                    'Verdana, Geneva, sans-serif'
+                ],
+                supportAllValues: true
+            },
+            fontSize: {
+                options: [10, 12, 14, 'default', 18, 20, 22],
+                supportAllValues: true
+            },
+            htmlSupport: {
+                allow: [
+                    {
+                        name: /.*/,
+                        attributes: true,
+                        classes: true,
+                        styles: true
+                    }
+                ]
+            },
+            htmlEmbed: {
+                showPreviews: true
+            },
+            link: {
+                decorators: {
+                    addTargetToExternalLinks: true,
+                    defaultProtocol: 'https://',
+                    toggleDownloadable: {
+                        mode: 'manual',
+                        label: 'Downloadable',
+                        attributes: {
+                            download: 'file'
+                        }
+                    }
+                }
+            },
+
+            removePlugins: [
+                'AIAssistant',
+                'CKBox',
+                'CKFinder',
+                'EasyImage',
+                'RealTimeCollaborativeComments',
+                'RealTimeCollaborativeTrackChanges',
+                'RealTimeCollaborativeRevisionHistory',
+                'PresenceList',
+                'Comments',
+                'TrackChanges',
+                'TrackChangesData',
+                'RevisionHistory',
+                'Pagination',
+                'WProofreader',
+                'MathType',
+                'SlashCommand',
+                'Template',
+                'DocumentOutline',
+                'FormatPainter',
+                'TableOfContents',
+                'PasteFromOfficeEnhanced'
+            ]
+        })
+            .then(editor => {
+                editor => {
+                    editor.ui.view.editable.element.style.height = '400px';
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        const uploadAvatarInput = $('.upload-avatar-input')
+        uploadAvatarInput.on('change', function () {
+            const file = this.files[0]
+            if (file) {
+                const url = URL.createObjectURL(file)
+                $('.product-image-upload').css('background-image', `url('${url}')`)
+            }
+        })
+    </script>
+}

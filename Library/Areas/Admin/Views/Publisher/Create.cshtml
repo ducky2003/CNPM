@@ -1,0 +1,161 @@
+﻿@using Library.Areas.Admin.Models
+@model CreatePublisher
+<div class="modal fade new-member" id="create-new-publisher" data-bs-backdrop="static" role="dialog" tabindex="-1"
+     aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fs-5 fw-500" id="staticBackdropLabel">Thêm nhà xuất bản</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="svg replaced-svg">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="new-member-modal">
+                    <form asp-action="CreatePublisher" asp-controller="Publisher" asp-area="Admin" method="POST"
+                          id="new-publisher-form">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group mb-20">
+                            <label asp-for="Name">Tên nhà xuẩt bản</label>
+                            <input type="text" class="form-control" asp-for="Name" id="publisher-name"
+                                   placeholder="Vui lòng nhập tên nhà xuất bản">
+                        </div>
+                        <div class="form-group mb-20">
+                            <label>Địa chỉ nhà xuất bản</label>
+                            <div class="d-flex justify-content-start gap-20">
+                                <div class="countryOption flex-1">
+                                    <label for="countryOption">
+                                        Tỉnh/Thành phố
+                                    </label>
+                                    <div class="dm-select-list">
+                                        <div class="dm-select">
+                                            <select id="cityOption" data-select2-id="cityOption" asp-for="Province"
+                                                    class="form-control js-example-basic-single js-states form-control select2-results__option"
+                                                    aria-hidden="true">
+                                                <option>
+                                                    Chọn Tỉnh/Thành phố
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="district flex-1">
+                                    <label for="district">
+                                        Quận/Huyện
+                                    </label>
+                                    <div class="dm-select-list">
+                                        <div class="dm-select">
+                                            <select role="select" id="district" data-select2-id="district"
+                                                    asp-for="District"
+                                                    class="form-control js-example-basic-single js-states form-control select2-results__option"
+                                                    aria-hidden="true">
+                                                <option>Chọn Quận/Huyện</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group d-flex pt-25 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">
+                                Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                    data-bs-dismiss="modal">
+                                Huỷ bỏ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const baseURL = "https://provinces.open-api.vn/api";
+        const formMessage = document.querySelector('#form-message');
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        function loadProvinces() {
+            $.ajax({
+                url: `${baseURL}/p?depth=1`,
+                method: "GET",
+                success: function (data) {
+                    // Clear the existing options
+                    $("#cityOption").empty();
+                    // Add the new options from the API response
+                    data.forEach(function (province) {
+                        $("#cityOption").append(`<option id="${province.code}" value="${province.name}">${province.name}</option>`);
+                    });
+                    // Initialize the select2 plugin
+                    $("#cityOption").select2(
+                        {
+                            searchInputPlaceholder: "Nhập tên Tỉnh/Thành phố",
+                            "language": {
+                                "noResults": function () {
+                                    return "Không tìm thấy kết quả nào";
+                                }
+                            },
+                        }
+                    );
+                    const provinceCode = $("#cityOption").children("option:selected").attr("id");
+                    loadDistricts(provinceCode);
+                },
+                error: function (error) {
+                    console.error("Error loading provinces:", error);
+                }
+            });
+        }
+        function loadDistricts(provinceCode) {
+            $.ajax({
+                url: `${baseURL}/p/${provinceCode}?depth=2`,
+                method: "GET",
+                success: function (data) {
+                    // Clear the existing options
+                    $("#district").empty();
+                    // Add the new options from the API response
+                    data.districts.forEach(function (district) {
+                        $("#district").append(`<option value="${district.name}">${district.name}</option>`);
+                    });
+                    // Initialize the select2 plugin
+                    $("#district").select2({
+                        searchInputPlaceholder: "Nhập tên Quận/Huyện",
+                        "language": {
+                            "noResults": function () {
+                                return "Không tìm thấy kết quả nào";
+                            }
+                        },
+                    });
+                },
+                error: function (error) {
+                    console.error("Error loading districts:", error);
+                }
+            });
+        }
+        $("#cityOption").change(function () {
+            const provinceCode = $("#cityOption").children("option:selected").attr("id");
+            loadDistricts(provinceCode);
+        });
+        loadProvinces();
+        const validator = new JustValidate('#add-publisher-form', {
+            validateBeforeSubmitting: true,
+        });
+        validator.addField('#publisher-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.onSuccess(function () {
+            $('#add-publisher-form').submit();
+        });
+    });
+</script>

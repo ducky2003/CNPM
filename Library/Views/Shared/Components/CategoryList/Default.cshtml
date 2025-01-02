@@ -1,0 +1,16 @@
+@using Library.Models
+@model IList<CategoryViewModel>
+
+<div class="product-category limit-list-item">
+    <ul>
+        @foreach (var category in Model)
+        {
+            <li>
+                <div class="w-100">
+                    <a asp-action="Index" asp-controller="Book" asp-route-categoryName="@category.Name"
+                        class="fs-14 color-gray">@category.Name<span class="item-numbers">@category.TotalBooks</span></a>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

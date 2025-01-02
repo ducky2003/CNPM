@@ -34,5 +34,21 @@ namespace Library.Areas.Admin.Controllers
             return View(data?.publishers as List<PublisherView>);
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Create/Publisher")]
+        public async Task<IActionResult> CreatePublisher(CreatePublisher newPublisher)
+        {
+            var response = await _publishManagerService.CreatePublisherAsync(newPublisher);
+            if (!response.IsSuccess)
+            {
+                TempData["SystemMessage"] = response.Message;
+                TempData["Type"] = "error";
+                return RedirectToAction("Index");
+            }
+            TempData["SystemMessage"] = response.Message;
+            TempData["Type"] = "success";
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -1,0 +1,67 @@
+﻿@using Library.Areas.Admin.Models
+@model CreateCategory
+<div class="modal fade new-member" id="create-new-category" data-bs-backdrop="static" role="dialog" tabindex="-1"
+     aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fs-5 fw-500" id="staticBackdropLabel">Thêm danh mục sách</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="svg replaced-svg">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="new-member-modal">
+                    <form asp-action="CreateCategory" asp-controller="Categories" asp-area="Admin" method="POST"
+                          id="new-category-form">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group mb-10">
+                            <label asp-for="Name">Tên danh mục</label>
+                            <input type="text" class="form-control" asp-for="Name" id="category-name"
+                                   placeholder="Vui lòng nhập tên danh mục">
+                        </div>
+                        <div class="ms-1 checkbox-theme-default custom-checkbox">
+                            <input class="checkbox" type="checkbox" asp-for="Status" checked>
+                            <label asp-for="Status">
+                                <span class="checkbox-text">
+                                    Hiển thị
+                                </span>
+                            </label>
+                        </div>
+                        <div class="button-group d-flex pt-25 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">
+                                Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                    data-bs-dismiss="modal">
+                                Huỷ bỏ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const validator = new JustValidate('#create-new-category', {
+            validateBeforeSubmitting: true,
+        });
+        validator.addField('#category-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.onSuccess(function () {
+            $('#new-category-form').submit();
+        });
+    });
+</script>

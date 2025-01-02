@@ -1,0 +1,193 @@
+﻿@using Library.Areas.Admin.Models
+@model CreateAuthorModel
+<div class="modal fade add-contact new-member" id="add-contact" data-bs-backdrop="static" role="dialog" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fw-500" id="staticBackdropLabel">Thông tin tác giá</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="/img/svg/x.svg" alt="x" class="svg">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="add-new-contact">
+                    <form enctype="multipart/form-data" id="add-author-form" asp-action="AddAuthor"
+                          asp-controller="Author" asp-area="Admin">
+                        @Html.AntiForgeryToken()
+                        <div class="d-flex justify-content-center">
+                            <div class="account-profile d-flex align-items-center mb-4 ">
+                                <div class="ap-img pro_img_wrapper">
+                                    <input id="file-upload" type="file" asp-for="Image"
+                                           accept="image/png, image/jpeg, image/jpg, image/webp, image/heic"
+                                           class="d-none upload-avatar-input">
+                                    <label for="file-upload">
+                                        <img class="dm-upload-avatar avatrSrc ap-img__main rounded-circle wh-120 bg-lighter d-flex"
+                                             src="/img/svg/upload-image.svg" alt="profile">
+                                        <span id="remove_pro_pic">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" class="svg replaced-svg">
+                                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z">
+                                                </path>
+                                                <circle cx="12" cy="13" r="4"></circle>
+                                            </svg>
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="account-profile__title">
+                                    <h6 class="fs-18 ms-20 fw-500">Ảnh tác giả</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group mb-20">
+                            <label>Tên tác giả</label>
+                            <input type="text" class="form-control form-control-lg" id="author-name" asp-for="Name"
+                                   placeholder="Nhập tên tác giả">
+                        </div>
+                        <div class="form-group mb-20">
+                            <label>Chức vụ hiện tại</label>
+                            <input type="text" class="form-control form-control-lg" id="author-title" asp-for="Title"
+                                   placeholder="Nhập thông tin mô tả">
+                        </div>
+                        <div class="form-group mb-20">
+                            <label>Địa chỉ tác giả</label>
+                            <div class="d-flex justify-content-start gap-20">
+                                <div class="countryOption flex-1">
+                                    <label for="countryOption">
+                                        Tỉnh/Thành phố
+                                    </label>
+                                    <div class="dm-select-list">
+                                        <div class="dm-select">
+                                            <select id="cityOption" data-select2-id="cityOption" asp-for="Province"
+                                                    class="form-control js-example-basic-single js-states form-control select2-results__option"
+                                                    aria-hidden="true">
+                                                <option>
+                                                    Chọn Tỉnh/Thành phố
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="district flex-1">
+                                    <label for="district">
+                                        Quận/Huyện
+                                    </label>
+                                    <div class="dm-select-list">
+                                        <div class="dm-select">
+                                            <select role="select" id="district" data-select2-id="district"
+                                                    asp-for="District"
+                                                    class="form-control js-example-basic-single js-states form-control select2-results__option"
+                                                    aria-hidden="true">
+                                                <option>Chọn Quận/Huyện</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group d-flex pt-25 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">
+                                Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                    data-bs-dismiss="modal">
+                                Huỷ bỏ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const baseURL = "https://provinces.open-api.vn/api";
+        const formMessage = document.querySelector('#form-message');
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+        function loadProvinces() {
+            $.ajax({
+                url: `${baseURL}/p?depth=1`,
+                method: "GET",
+                success: function (data) {
+                    // Clear the existing options
+                    $("#cityOption").empty();
+                    // Add the new options from the API response
+                    data.forEach(function (province) {
+                        $("#cityOption").append(`<option id="${province.code}" value="${province.name}">${province.name}</option>`);
+                    });
+                    // Initialize the select2 plugin
+                    $("#cityOption").select2(
+                        {
+                            searchInputPlaceholder: "Nhập tên Tỉnh/Thành phố",
+                            "language": {
+                                "noResults": function () {
+                                    return "Không tìm thấy kết quả nào";
+                                }
+                            },
+                        }
+                    );
+                    const provinceCode = $("#cityOption").children("option:selected").attr("id");
+                    loadDistricts(provinceCode);
+                },
+                error: function (error) {
+                    console.error("Error loading provinces:", error);
+                }
+            });
+        }
+        function loadDistricts(provinceCode) {
+            $.ajax({
+                url: `${baseURL}/p/${provinceCode}?depth=2`,
+                method: "GET",
+                success: function (data) {
+                    // Clear the existing options
+                    $("#district").empty();
+                    // Add the new options from the API response
+                    data.districts.forEach(function (district) {
+                        $("#district").append(`<option value="${district.name}">${district.name}</option>`);
+                    });
+                    // Initialize the select2 plugin
+                    $("#district").select2({
+                        searchInputPlaceholder: "Nhập tên Quận/Huyện",
+                        "language": {
+                            "noResults": function () {
+                                return "Không tìm thấy kết quả nào";
+                            }
+                        },
+                    });
+                },
+                error: function (error) {
+                    console.error("Error loading districts:", error);
+                }
+            });
+        }
+        $("#cityOption").change(function () {
+            const provinceCode = $("#cityOption").children("option:selected").attr("id");
+            loadDistricts(provinceCode);
+        });
+        loadProvinces();
+        const validator = new JustValidate('#add-author-form', {
+            validateBeforeSubmitting: true,
+        });
+        validator.addField('#author-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.addField('#author-title', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.onSuccess(function () {
+            $('#add-author-form').submit();
+        });
+    });
+</script>

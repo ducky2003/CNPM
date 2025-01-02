@@ -8,6 +8,7 @@ namespace Library.Entities
         [Key]
         public int AuthorId { get; set; }
         public string Name { get; set; } = null!;
+        public string? Slug { get; set; }
         public string? AuthorImg { get; set; } = null!;
         public string? Address { get; set; } = null!;
         public string? Title { get; set; }
@@ -15,5 +16,6 @@ namespace Library.Entities
         [ForeignKey("User")]
         public string AddById { get; set; } = null!;
         public virtual User AddBy { get; set; } = null!;
+        public virtual ICollection<Book> Books { get; set; } = null!;
     }
 }

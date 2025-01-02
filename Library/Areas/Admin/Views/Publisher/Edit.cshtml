@@ -1,0 +1,90 @@
+﻿@using Library.Areas.Admin.Models
+@model UpdatePublisher
+<div class="modal fade add-contact new-member" id="update-publisher" data-bs-backdrop="static" role="dialog" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fw-500" id="staticBackdropLabel">Cập nhật thông tin nhà xuất bản</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <img src="/img/svg/x.svg" alt="x" class="svg">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="add-new-contact">
+                    <form enctype="multipart/form-data" id="update-author-form" asp-action="UpdatePublisher"
+                          asp-controller="Publisher" asp-area="Admin">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="PublisherId" id="author-id" />
+                        <div class="form-group mb-20">
+                            <label>Tên nhà xuất bản</label>
+                            <input type="text" class="form-control form-control-lg" id="author-name" asp-for="Name"
+                                   placeholder="Nhập tên nhà xuất bản">
+                        </div>
+                        <div class="form-group mb-20">
+                            <label>Địa chỉ nhà xuất bản</label>
+                            <input type="text" class="form-control form-control-lg" id="author-address" asp-for="Address"
+                                   placeholder="Địa chỉ nhà xuất bản">
+                        </div>
+                        <div class="button-group d-flex pt-25 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">
+                                Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                    data-bs-dismiss="modal">
+                                Huỷ bỏ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const updateAuthorModal = document.getElementById('update-publisher');
+        if (updateAuthorModal) {
+            updateAuthorModal.addEventListener('show.bs.modal', function (event) {
+                const dataContainer = $(event.relatedTarget).closest('.publisher-data-container');
+                const authorData = {
+                    id: dataContainer.data("id"),
+                    name: dataContainer.data("name"),
+                    title: dataContainer.data("title"),
+                    email: dataContainer.data("email"),
+                    address: dataContainer.data("address"),
+                    image: dataContainer.data("image")
+                }
+                const modalData = {
+                    authorId: $(updateAuthorModal).find('#author-id'),
+                    authorName: $(updateAuthorModal).find('#author-name'),
+                    authorAddress: $(updateAuthorModal).find('#author-address'),
+
+                }
+                modalData.authorName.val(authorData.name)
+                modalData.authorId.val(authorData.id)
+                modalData.authorAddress.val(authorData.address)
+            })
+        }
+        const validator = new JustValidate('#update-author-form', {
+            validateBeforeSubmitting: true,
+        });
+        validator.addField('#author-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.addField('#author-address', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.onSuccess(function () {
+            $('#update-author-form').submit();
+        });
+    });
+</script>

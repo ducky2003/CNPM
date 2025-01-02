@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Library.Entities;
 using Library.Areas.Admin.Services;
 using Library.Utils;
+using Library.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,6 +29,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUsersManagerService, UsersManagerService>();
 builder.Services.AddScoped<IAuthorManagerService, AuthorManagerService>();
 builder.Services.AddScoped<IPublisherService, PublisherManagerService>();
+builder.Services.AddScoped<ICategoriesManagerService, CategoriesManagerService>();
+builder.Services.AddScoped<IBooksManagerService, BooksManagerService>();
+builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.Password.RequireDigit = true;

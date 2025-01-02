@@ -1,10 +1,13 @@
 ﻿using Library.Data;
 using Library.Models;
 using Library.Utils;
+using Slugify;
 using Library.Areas.Admin.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Logging;
+using Library.Entities;
 
 namespace Library.Areas.Admin.Services
 {
@@ -12,6 +15,10 @@ namespace Library.Areas.Admin.Services
     {
         Task<ActionResponse> GetAuthor(int? page, int? pageSize);
         Task<ActionResponse> GetListAuthor();
+        Task<ActionResponse> CreateAuthorAsync(CreateAuthorModel author);
+        Task<ActionResponse> UpdateAuthorAsync(UpdateAuthorModel author);
+        Task<ActionResponse> DeleteAuthorAsync(int authorId);
+        Task<ActionResponse> SearchAuthorsAsync(string? searchQuery);
     }
     public class AuthorManagerService : IAuthorManagerService
     {
@@ -92,6 +99,157 @@ namespace Library.Areas.Admin.Services
                 {
                     IsSuccess = false,
                     Message = "Không thể lấy danh sách tác giả, vui lòng thử lại sau"
+                };
+            }
+        }
+        public async Task<ActionResponse> CreateAuthorAsync(CreateAuthorModel author)
+        {
+            try
+            {
+                string userId = _contextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return new ActionResponse
+                    {
+                        IsSuccess = false,
+                        Message = "Người dùng không hợp lệ"
+                    };
+                }
+                var slugHelper = new SlugHelper();
+                var authorImage = UploadImage.UploadSingleImage(author.Image) ?? "/img/default-user.webp";
+                var newAuthor = new Author
+                {
+                    Name = author.Name,
+                    Slug = slugHelper.GenerateSlug(author.Name),
+                    Address = author.GetAddress(),
+                    AuthorImg = authorImage,
+                    Title = author.Title,
+                    AddedAt = DateTime.UtcNow,
+                    AddById = userId
+                };
+                await _context.Author.AddAsync(newAuthor);
+                await _context.SaveChangesAsync();
+                return new ActionResponse
+                {
+                    IsSuccess = true,
+                    Message = "Thêm tác giả thành công"
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, $"AuthorsManagerService.CreateAuthorAsync at: {DateTime.UtcNow}");
+                return new ActionResponse
+                {
+                    IsSuccess = false,
+                    Message = "Không thể thêm tác giả, vui lòng thử lại sau"
+                };
+            }
+        }
+        public async Task<ActionResponse> UpdateAuthorAsync(UpdateAuthorModel author)
+        {
+            try
+            {
+                var slugHelper = new SlugHelper();
+                var authorToUpdate = await _context.Author.FindAsync(author.AuthorId);
+                if (authorToUpdate == null)
+                {
+                    return new ActionResponse
+                    {
+                        IsSuccess = false,
+                        Message = "Không tìm thấy tác giả"
+                    };
+                }
+                authorToUpdate.Name = author.Name ?? authorToUpdate.Name;
+                authorToUpdate.Slug = slugHelper.GenerateSlug(author.Name) ?? authorToUpdate.Slug;
+                authorToUpdate.Address = author.Address ?? authorToUpdate.Address;
+                authorToUpdate.AuthorImg = author.Image != null ? UploadImage.UploadSingleImage(author.Image) : authorToUpdate.AuthorImg;
+                authorToUpdate.Title = author.Title ?? authorToUpdate.Title;
+                _context.Author.Update(authorToUpdate);
+                await _context.SaveChangesAsync();
+                return new ActionResponse
+                {
+                    IsSuccess = true,
+                    Message = "Cập nhật tác giả thành công"
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, $"AuthorsManagerService.UpdateAuthorAsync at: {DateTime.UtcNow}");
+                return new ActionResponse
+                {
+                    IsSuccess = false,
+                    Message = "Không thể cập nhật tác giả, vui lòng thử lại sau"
+                };
+            }
+        }
+        public async Task<ActionResponse> DeleteAuthorAsync(int authorId)
+        {
+            try
+            {
+                var authorToDelete = await _context.Author.FindAsync(authorId);
+                if (authorToDelete == null)
+                {
+                    return new ActionResponse
+                    {
+                        IsSuccess = false,
+                        Message = "Không tìm thấy tác giả"
+                    };
+                }
+                _context.Author.Remove(authorToDelete);
+                await _context.SaveChangesAsync();
+                return new ActionResponse
+                {
+                    IsSuccess = true,
+                    Message = "Xóa tác giả thành công"
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, $"AuthorsManagerService.DeleteAuthorAsync at: {DateTime.UtcNow}");
+                return new ActionResponse
+                {
+                    IsSuccess = false,
+                    Message = "Không thể xóa tác giả, vui lòng thử lại sau"
+                };
+            }
+        }
+        public async Task<ActionResponse> SearchAuthorsAsync(string? searchQuery)
+        {
+            try
+            {
+                var query = _context.Author.AsQueryable();
+                if (!string.IsNullOrEmpty(searchQuery))
+                {
+                    query = query.Where(author => author.Name.Contains(searchQuery)).OrderByDescending(author => author.AddedAt);
+                }
+                query = query.Take(10);
+                var authors = await query.Select(author => new AuthorView()
+                {
+                    AuthorId = author.AuthorId,
+                    Name = author.Name,
+                    Address = author.Address,
+                    AuthorImg = author.AuthorImg,
+                    Slug = author.Slug,
+                    Title = author.Title,
+                    AddedAt = author.AddedAt,
+                }).ToListAsync();
+                return new ActionResponse
+                {
+                    IsSuccess = true,
+                    Message = "Tìm kiếm tác giả thành công",
+                    Data = new
+                    {
+                        authors
+                    }
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, $"AuthorsManagerService.SearchAuthorsAsync at: {DateTime.UtcNow}");
+                return new ActionResponse
+                {
+                    IsSuccess = false,
+                    Message = "Không thể tìm kiếm tác giả, vui lòng thử lại sau"
                 };
             }
         }

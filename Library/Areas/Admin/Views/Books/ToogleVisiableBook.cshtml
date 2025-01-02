@@ -1,0 +1,63 @@
+<div class="modal fade new-member" id="toogle-visiable-book" data-bs-backdrop="static" role="dialog" tabindex="-1"
+    aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fs-5 fw-500" id="staticBackdropLabel"></h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="svg replaced-svg">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="new-member-modal">
+                    <form asp-controller="Books" asp-area="Admin" method="POST" id="toogle-visiable-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" class="book-id" />
+                        <p class="mt-3 fs-6 fw-500 text-center">Bạn có chắc chắc muốn thực hiện thao tác với:
+                            <span class="dm-tag tag-primary rounded-pill tag-transparented book-name">
+                            </span>
+                        </p>
+                        <div class="button-group d-flex pt-10 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                data-bs-dismiss="modal">Huỷ bỏ</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const toggleVisiableModal = document.getElementById('toogle-visiable-book')
+        if (toggleVisiableModal) {
+            toggleVisiableModal.addEventListener('show.bs.modal', event => {
+                const dataContainer = $(event.relatedTarget).closest('.book-data-container');
+                const bookData = {
+                    id: dataContainer.data("id"),
+                    name: dataContainer.data("name"),
+                    visiable: dataContainer.data("visiable")
+                }
+                const modalData = {
+                    modalTitle: $(toggleVisiableModal).find('.modal-title'),
+                    modalName: $(toggleVisiableModal).find('.book-name'),
+                    bookId: $(toggleVisiableModal).find('.book-id')
+                }
+                const form = $(toggleVisiableModal).find('#toogle-visiable-form')
+                const formAction = bookData.visiable === "True" ? "/admin/books/hide/book" : "/admin/books/show/book"
+                form.attr('action', formAction)
+                modalData.modalTitle.text(bookData.visiable === "True" ? 'Ẩn sách ở trang người dùng?' : 'Hiển thị sách trang người dùng?')
+                modalData.modalName.text(bookData.name)
+                modalData.bookId.val(bookData.id)
+            })
+        }
+    });
+</script>

@@ -1,0 +1,15 @@
+@using Library.Models
+@model IList<AuthorView>
+
+<div class="product-brands limit-list-item">
+    <ul>
+        @foreach (var author in Model)
+        {
+            <li>
+                <div class="w-100">
+                    <span class="fs-14 color-gray">@author.Name<span class="item-numbers">@author.TotalBooks</span></span>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

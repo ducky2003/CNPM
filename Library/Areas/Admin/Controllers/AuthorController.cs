@@ -40,5 +40,60 @@ namespace Library.Areas.Admin.Controllers
             return View(author);
 
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Author/Add")]
+        public async Task<IActionResult> AddAuthor(CreateAuthorModel author)
+        {
+            var response = await _authorManagerService.CreateAuthorAsync(author);
+            if (!response.IsSuccess)
+            {
+                TempData["SystemMessage"] = response.Message;
+                TempData["Type"] = "error";
+                return RedirectToAction("Index", "Author");
+            }
+            TempData["SystemMessage"] = response.Message;
+            TempData["Type"] = "success";
+            return RedirectToAction("Index", "Author");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Author/Update")]
+        public async Task<IActionResult> UpdateAuthor(UpdateAuthorModel author)
+        {
+            var response = await _authorManagerService.UpdateAuthorAsync(author);
+            if (!response.IsSuccess)
+            {
+                TempData["SystemMessage"] = response.Message;
+                TempData["Type"] = "error";
+                return RedirectToAction("Index", "Author");
+            }
+            TempData["SystemMessage"] = response.Message;
+            TempData["Type"] = "success";
+            return RedirectToAction("Index", "Author");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Route("Author/Delete")]
+        public async Task<IActionResult> DeleteAuthor(int authorId)
+        {
+            var response = await _authorManagerService.DeleteAuthorAsync(authorId);
+            if (!response.IsSuccess)
+            {
+                TempData["SystemMessage"] = response.Message;
+                TempData["Type"] = "error";
+                return RedirectToAction("Index", "Author");
+            }
+            TempData["SystemMessage"] = response.Message;
+            TempData["Type"] = "success";
+            return RedirectToAction("Index", "Author");
+        }
+        [HttpGet]
+        [Route("Search")]
+        public async Task<IActionResult> Search(string? query)
+        {
+            var response = await _authorManagerService.SearchAuthorsAsync(query);
+            return Ok(response);
+        }
     }
 }

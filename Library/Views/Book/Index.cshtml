@@ -1,7 +1,7 @@
 ﻿@using Library.Models
 @model IList<ViewBook>
 @{
-    ViewData["Title"] = "Trang chủ";
+    ViewData["Title"] = ViewBag.CategoryName ?? "Tất cả sách";
     var totalBooks = ViewBag.TotalBooks;
     var currentPage = ViewBag.CurrentPage;
     var currentPageSize = ViewBag.CurrentPageSize;
@@ -134,7 +134,7 @@
                                             </div>
                                         </a>
                                         <div class="course-card__body">
-                                            <a asp-action="BookDetails" asp-controller="Book" asp-route-id="@book.BookId"
+                                            <a asp-action="BookDetails" asp-controller="Book" asp-route-id="@book.BookId" 
                                                asp-route-slug="@book.Slug">
                                                 <div class="course-card__title">
                                                     <h4>@book.Name</h4>
@@ -224,7 +224,7 @@
                             {
                                 <div class="col-xxl-3 col-xl-4 col-sm-6 col-12 mb-25">
                                     <div class="course-card">
-                                        <a asp-action="BookDetails" asp-controller="Book" asp-route-id="@book.BookId"
+                                        <a asp-action="BookDetails" asp-controller="Books" asp-route-id="@book.BookId"
                                            asp-route-slug="@book.Slug">
                                             <div class="course-card__img-area w-100 h-100">
                                                 <img class="home-book-image" src="@book.ImageURL" alt="gallery">
@@ -278,7 +278,8 @@
                                             @if (currentPage > 1)
                                             {
                                                 var prevPage = currentPage - 1;
-                                                <a asp-action="Index" asp-controller="Home" asp-route-page="@prevPage"
+                                                <a asp-action="Index" asp-controller="Book"
+                                                   asp-route-categoryName="@ViewBag.CategoryName" asp-route-page="@prevPage"
                                                    class="dm-pagination__link rounded-pill pagination-control">
                                                     <span class="la la-angle-left"></span>
                                                 </a>
@@ -286,7 +287,8 @@
                                             @for (int i = 1; i <= totalPage; i++)
                                             {
                                                 var active = i == currentPage ? "active" : "";
-                                                <a asp-action="Index" asp-controller="Home" asp-route-page="@i"
+                                                <a asp-action="Index" asp-controller="Book"
+                                                   asp-route-categoryName="@ViewBag.CategoryName" asp-route-page="@i"
                                                    class="dm-pagination__link rounded-pill @active">
                                                     <span class="page-number">@i</span>
                                                 </a>
@@ -294,7 +296,8 @@
                                             @if (currentPage < totalPage && totalPage > 1)
                                             {
                                                 var nextPage = currentPage + 1;
-                                                <a asp-action="Index" asp-controller="Home" asp-route-page="@nextPage"
+                                                <a asp-action="Index" asp-controller="Book"
+                                                   asp-route-categoryName="@ViewBag.CategoryName" asp-route-page="@nextPage"
                                                    class="dm-pagination__link rounded-pill pagination-control">
                                                     <span class="la la-angle-right"></span>
                                                 </a>
@@ -302,7 +305,8 @@
                                         </li>
                                         <li class="dm-pagination__item">
                                             <div class="paging-option">
-                                                <form asp-action="Index" asp-controller="Home" method="GET" id="page-size-form">
+                                                <form asp-action="Index" asp-controller="Book" method="GET" id="page-size-form">
+                                                    <input type="hidden" name="categoryName" value="@ViewBag.CategoryName">
                                                     <input type="hidden" name="page" value="@currentPage" />
                                                     <select id="change-page-size" class="page-size-select" name="pageSize"
                                                             class="page-selection rounded-pill">
@@ -333,13 +337,13 @@
 <!-- End: .products -->
 <script>
     document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-            const pageSizeForm = document.getElementById('page-size-form')
-            const pageSelection = $('#change-page-size')
-            pageSelection.change(function () {
-                pageSizeForm.submit()
-            })
-        },
+       "DOMContentLoaded",
+       function () {
+          const pageSizeForm = document.getElementById('page-size-form')
+          const pageSelection = $('#change-page-size')
+          pageSelection.change(function () {
+             pageSizeForm.submit()
+          })
+       },
     )
 </script>

@@ -1,0 +1,76 @@
+﻿<div class="modal fade new-member" id="update-category" data-bs-backdrop="static" role="dialog" tabindex="-1"
+     aria-labelledby="staticBackdropLabel">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content radius-xl">
+            <div class="modal-header">
+                <h6 class="modal-title fs-5 fw-500" id="staticBackdropLabel">Cập nhật danh mục sách</h6>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="svg replaced-svg">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="new-member-modal">
+                    <form asp-action="UpdateCategory" asp-controller="Categories" asp-area="Admin" method="POST"
+                          id="update-category-form">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" class="category-id" />
+                        <div class="form-group mb-10">
+                            <label for="category-name">Tên danh mục</label>
+                            <input type="text" class="form-control" name="name" id="category-name"
+                                   placeholder="Vui lòng nhập tên danh mục">
+                        </div>
+                        <div class="button-group d-flex pt-25 justify-content-end">
+                            <button type="submit" class="confirm-btn btn btn-primary btn-rounded">
+                                Xác
+                                nhận
+                            </button>
+                            <button type="button" class="btn btn-light btn-default btn-rounded"
+                                    data-bs-dismiss="modal">
+                                Huỷ bỏ
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const updateCategoryModal = document.getElementById('update-category');
+        if (updateCategoryModal) {
+            updateCategoryModal.addEventListener('show.bs.modal', function (event) {
+                const dataContainer = $(event.relatedTarget).closest('.category-data-container');
+                const categoryData = {
+                    id: dataContainer.data("id"),
+                    name: dataContainer.data("name"),
+                    visiable: dataContainer.data("visiable")
+                }
+                const modalData = {
+                    modalTitle: $(updateCategoryModal).find('.modal-title'),
+                    modalName: $(updateCategoryModal).find('#category-name'),
+                    categoryId: $(updateCategoryModal).find('.category-id')
+                }
+                modalData.modalName.val(categoryData.name)
+                modalData.categoryId.val(categoryData.id)
+            })
+        }
+        const validator = new JustValidate('#update-category-form', {
+            validateBeforeSubmitting: true,
+        });
+        validator.addField('#category-name', [
+            {
+                rule: 'required',
+                errorMessage: 'Trường này không được để trống',
+            },
+        ]);
+        validator.onSuccess(function () {
+            $('#update-category-form').submit();
+        });
+    });
+</script>
